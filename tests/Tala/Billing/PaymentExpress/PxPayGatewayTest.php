@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Tala\PaymentExpress;
+namespace Tala\Billing\PaymentExpress;
 
 use Mockery as m;
 use Tala\Request;
@@ -66,7 +66,7 @@ class PxPayGatewayTest extends \PHPUnit_Framework_TestCase
 
         $response = $this->gateway->completeAuthorize($this->request);
 
-        $this->assertInstanceOf('\Tala\PaymentExpress\Response', $response);
+        $this->assertInstanceOf('\Tala\Billing\PaymentExpress\Response', $response);
         $this->assertEquals(5, $response->getGatewayReference());
     }
 
@@ -132,7 +132,7 @@ class PxPayGatewayTest extends \PHPUnit_Framework_TestCase
 
         $response = $this->gateway->completePurchase($this->request);
 
-        $this->assertInstanceOf('\Tala\PaymentExpress\Response', $response);
+        $this->assertInstanceOf('\Tala\Billing\PaymentExpress\Response', $response);
         $this->assertEquals(5, $response->getGatewayReference());
     }
 

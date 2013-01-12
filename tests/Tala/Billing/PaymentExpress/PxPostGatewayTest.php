@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Tala\PaymentExpress;
+namespace Tala\Billing\PaymentExpress;
 
 use Mockery as m;
 use Tala\CreditCard;
