@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Tala Payments package.
+ * This file is part of the Omnipay package.
  *
  * (c) Adrian Macneil <adrian@adrianmacneil.com>
  *
@@ -9,17 +9,17 @@
  * file that was distributed with this source code.
  */
 
-namespace Tala\Billing\PaymentExpress;
+namespace Omnipay\Billing\PaymentExpress;
 
 use Mockery as m;
-use Tala\BaseGatewayTest;
-use Tala\Request;
+use Omnipay\BaseGatewayTest;
+use Omnipay\Request;
 
 class PxPayGatewayTest extends BaseGatewayTest
 {
     public function setUp()
     {
-        $this->httpClient = m::mock('\Tala\HttpClient\HttpClientInterface');
+        $this->httpClient = m::mock('\Omnipay\HttpClient\HttpClientInterface');
         $this->httpRequest = m::mock('\Symfony\Component\HttpFoundation\Request');
 
         $this->gateway = new PxPayGateway($this->httpClient, $this->httpRequest);
@@ -38,12 +38,12 @@ class PxPayGatewayTest extends BaseGatewayTest
 
         $response = $this->gateway->authorize($this->options);
 
-        $this->assertInstanceOf('\Tala\RedirectResponse', $response);
+        $this->assertInstanceOf('\Omnipay\RedirectResponse', $response);
         $this->assertEquals('https://www.example.com/redirect', $response->getRedirectUrl());
     }
 
     /**
-     * @expectedException Tala\Exception\InvalidResponseException
+     * @expectedException Omnipay\Exception\InvalidResponseException
      */
     public function testAuthorizeError()
     {
@@ -70,7 +70,7 @@ class PxPayGatewayTest extends BaseGatewayTest
     }
 
     /**
-     * @expectedException Tala\Exception\InvalidResponseException
+     * @expectedException Omnipay\Exception\InvalidResponseException
      */
     public function testCompleteAuthorizeInvalid()
     {
@@ -103,12 +103,12 @@ class PxPayGatewayTest extends BaseGatewayTest
 
         $response = $this->gateway->purchase($this->options);
 
-        $this->assertInstanceOf('\Tala\RedirectResponse', $response);
+        $this->assertInstanceOf('\Omnipay\RedirectResponse', $response);
         $this->assertEquals('https://www.example.com/redirect', $response->getRedirectUrl());
     }
 
     /**
-     * @expectedException Tala\Exception\InvalidResponseException
+     * @expectedException Omnipay\Exception\InvalidResponseException
      */
     public function testPurchaseError()
     {
@@ -135,7 +135,7 @@ class PxPayGatewayTest extends BaseGatewayTest
     }
 
     /**
-     * @expectedException Tala\Exception\InvalidResponseException
+     * @expectedException Omnipay\Exception\InvalidResponseException
      */
     public function testCompletePurchaseInvalid()
     {
