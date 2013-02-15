@@ -9,12 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Omnipay\Billing\PaymentExpress;
+namespace Omnipay\PaymentExpress;
 
 use SimpleXMLElement;
-use Omnipay\AbstractResponse;
+use Omnipay\Common\AbstractResponse;
 use Omnipay\Exception;
-use Omnipay\Exception\InvalidResponseException;
+use Omnipay\Common\Exception\InvalidResponseException;
 
 /**
  * DPS PaymentExpress PxPost Response

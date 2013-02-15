@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Omnipay\Billing\PaymentExpress;
+namespace Omnipay\PaymentExpress;
 
 use Omnipay\GatewayTestCase;
-use Omnipay\CreditCard;
+use Omnipay\Common\CreditCard;
 
 class PxPostGatewayTest extends GatewayTestCase
 {

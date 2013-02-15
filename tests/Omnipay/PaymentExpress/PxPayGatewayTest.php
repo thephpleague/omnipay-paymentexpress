@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Omnipay\Billing\PaymentExpress;
+namespace Omnipay\PaymentExpress;
 
 use Omnipay\GatewayTestCase;
 
@@ -33,12 +33,12 @@ class PxPayGatewayTest extends GatewayTestCase
 
         $response = $this->gateway->authorize($this->options);
 
-        $this->assertInstanceOf('\Omnipay\RedirectResponse', $response);
+        $this->assertInstanceOf('\Omnipay\Common\RedirectResponse', $response);
         $this->assertEquals('https://www.example.com/redirect', $response->getRedirectUrl());
     }
 
     /**
-     * @expectedException Omnipay\Exception\InvalidResponseException
+     * @expectedException Omnipay\Common\Exception\InvalidResponseException
      */
     public function testAuthorizeError()
     {
@@ -61,7 +61,7 @@ class PxPayGatewayTest extends GatewayTestCase
     }
 
     /**
-     * @expectedException Omnipay\Exception\InvalidResponseException
+     * @expectedException Omnipay\Common\Exception\InvalidResponseException
      */
     public function testCompleteAuthorizeInvalid()
     {
@@ -90,12 +90,12 @@ class PxPayGatewayTest extends GatewayTestCase
 
         $response = $this->gateway->purchase($this->options);
 
-        $this->assertInstanceOf('\Omnipay\RedirectResponse', $response);
+        $this->assertInstanceOf('\Omnipay\Common\RedirectResponse', $response);
         $this->assertEquals('https://www.example.com/redirect', $response->getRedirectUrl());
     }
 
     /**
-     * @expectedException Omnipay\Exception\InvalidResponseException
+     * @expectedException Omnipay\Common\Exception\InvalidResponseException
      */
     public function testPurchaseError()
     {
@@ -118,7 +118,7 @@ class PxPayGatewayTest extends GatewayTestCase
     }
 
     /**
-     * @expectedException Omnipay\Exception\InvalidResponseException
+     * @expectedException Omnipay\Common\Exception\InvalidResponseException
      */
     public function testCompletePurchaseInvalid()
     {

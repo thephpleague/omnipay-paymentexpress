@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Omnipay\Billing\PaymentExpress;
+namespace Omnipay\PaymentExpress;
 
-use Omnipay\AbstractGateway;
-use Omnipay\Request;
+use Omnipay\Common\AbstractGateway;
+use Omnipay\Common\Request;
 
 /**
  * DPS PaymentExpress PxPost Gateway
