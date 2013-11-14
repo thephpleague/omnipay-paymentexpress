@@ -2,7 +2,7 @@
 
 namespace Omnipay\PaymentExpress;
 
-use Omnipay\GatewayTestCase;
+use Omnipay\Tests\GatewayTestCase;
 
 class PxPayGatewayTest extends GatewayTestCase
 {
