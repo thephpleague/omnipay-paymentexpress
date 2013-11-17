@@ -6,7 +6,7 @@
 [![Latest Stable Version](https://poser.pugx.org/omnipay/paymentexpress/version.png)](https://packagist.org/packages/omnipay/paymentexpress)
 [![Total Downloads](https://poser.pugx.org/omnipay/paymentexpress/d/total.png)](https://packagist.org/packages/omnipay/paymentexpress)
 
-[Omnipay](https://github.com/omnipay/omnipay) is a framework agnostic, multi-gatpaymentexpress payment
+[Omnipay](https://github.com/omnipay/omnipay) is a framework agnostic, multi-gateway payment
 processing library for PHP 5.3+. This package implements Payment Express support for Omnipay.
 
 ## Installation
