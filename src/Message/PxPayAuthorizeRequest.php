@@ -33,6 +33,36 @@ class PxPayAuthorizeRequest extends AbstractRequest
         return $this->setParameter('password', $value);
     }
 
+    public function getTxnData1()
+    {
+        return $this->getParameter('txnData1');
+    }
+
+    public function setTxnData1($value)
+    {
+        return $this->setParameter('txnData1', $value);
+    }
+
+    public function getTxnData2()
+    {
+        return $this->getParameter('txnData2');
+    }
+
+    public function setTxnData2($value)
+    {
+        return $this->setParameter('txnData2', $value);
+    }
+
+    public function getTxnData3()
+    {
+        return $this->getParameter('txnData3');
+    }
+
+    public function setTxnData3($value)
+    {
+        return $this->setParameter('txnData3', $value);
+    }
+
     public function getData()
     {
         $this->validate('amount', 'returnUrl');
@@ -44,6 +74,9 @@ class PxPayAuthorizeRequest extends AbstractRequest
         $data->AmountInput = $this->getAmount();
         $data->CurrencyInput = $this->getCurrency();
         $data->MerchantReference = $this->getDescription();
+        $data->TxnData1 = $this->getTxnData1();
+        $data->TxnData2 = $this->getTxnData2();
+        $data->TxnData3 = $this->getTxnData3();
         $data->UrlSuccess = $this->getReturnUrl();
         $data->UrlFail = $this->getReturnUrl();
 
