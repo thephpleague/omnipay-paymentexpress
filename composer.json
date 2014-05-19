@@ -3,17 +3,18 @@
     "type": "library",
     "description": "Payment Express (DPS) driver for the Omnipay payment processing library",
     "keywords": [
-        "dps",
         "direct payment solutions",
+        "dps",
         "gateway",
         "merchant",
         "omnipay",
         "pay",
         "payment express",
-        "paymentexpress",
         "payment",
+        "paymentexpress",
+        "pxaccess",
         "pxpay",
-        "pxaccess"
+        "pxpost"
     ],
     "homepage": "https://github.com/omnipay/paymentexpress",
     "license": "MIT",
