@@ -50,6 +50,7 @@ class PxPostAuthorizeRequest extends AbstractRequest
         $data->InputCurrency = $this->getCurrency();
         $data->Amount = $this->getAmount();
         $data->MerchantReference = $this->getDescription();
+        $data->TxnId = $this->getTransactionId();
 
         if ($this->getCardReference()) {
             $data->DpsBillingId = $this->getCardReference();
