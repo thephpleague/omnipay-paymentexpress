@@ -16,7 +16,7 @@
         "pxpay",
         "pxpost"
     ],
-    "homepage": "https://github.com/omnipay/paymentexpress",
+    "homepage": "https://github.com/thephpleague/omnipay-paymentexpress",
     "license": "MIT",
     "authors": [
         {
@@ -25,7 +25,7 @@
         },
         {
             "name": "Omnipay Contributors",
-            "homepage": "https://github.com/omnipay/paymentexpress/contributors"
+            "homepage": "https://github.com/thephpleague/omnipay-paymentexpress/contributors"
         }
     ],
     "autoload": {
