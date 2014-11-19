@@ -84,6 +84,11 @@ class PxFusionPurchaseRequest extends AbstractRequest
 
         $httpResponse = $this->httpClient->post($this->endpoint, $headers, $document->saveXML())->send();
 
-        return $this->response = new PxFusionPurchaseResponse($this, $httpResponse->getBody());
+        return $this->createResponse($httpResponse->getBody());
+    }
+
+    protected function createResponse($data)
+    {
+        return $this->response = new PxFusionPurchaseResponse($this, $data);
     }
 }

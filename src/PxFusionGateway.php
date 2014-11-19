@@ -46,4 +46,9 @@ class PxFusionGateway extends AbstractGateway
     {
         return $this->createRequest('\Omnipay\PaymentExpress\Message\PxFusionPurchaseRequest', $parameters);
     }
+
+    public function completePurchase(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\PaymentExpress\Message\PxFusionCompletePurchaseRequest', $parameters);
+    }
 }
