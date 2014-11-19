@@ -33,6 +33,7 @@ The following gateways are provided by this package:
 
 * PaymentExpress_PxPay
 * PaymentExpress_PxPost
+* PaymentExpress_PxFusion
 
 For general usage instructions, please see the main [Omnipay](https://github.com/thephpleague/omnipay)
 repository.
