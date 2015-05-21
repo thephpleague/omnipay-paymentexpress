@@ -9,7 +9,9 @@ class PxPayCreateCardRequest extends PxPayAuthorizeRequest
 {
     public function getData()
     {
-        $this->setAmount('1.00');
+        $amount = $this->getAmount() ? $this->getAmount() : '1.00';
+        $this->setAmount($amount);
+
         $this->setCurrency('NZD');
 
         $data = parent::getData();
