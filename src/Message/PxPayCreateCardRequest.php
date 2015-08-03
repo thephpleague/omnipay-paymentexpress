@@ -22,7 +22,7 @@ class PxPayCreateCardRequest extends PxPayAuthorizeRequest
         $this->setAmount($this->getAmount() ? $this->getAmount() : '1.00');
 
 
-        if($this->getAction()) {
+        if ($this->getAction()) {
             $this->action = $this->getAction();
         }
 
