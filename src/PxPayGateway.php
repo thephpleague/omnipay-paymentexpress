@@ -22,6 +22,7 @@ class PxPayGateway extends AbstractGateway
         return array(
             'username' => '',
             'password' => '',
+            'version'  => 2
         );
     }
 
@@ -43,6 +44,16 @@ class PxPayGateway extends AbstractGateway
     public function setPassword($value)
     {
         return $this->setParameter('password', $value);
+    }
+
+    public function getVersion()
+    {
+        return $this->getParameter('version');
+    }
+
+    public function setVersion($value)
+    {
+        return $this->setParameter('version', $value);
     }
 
     public function authorize(array $parameters = array())

@@ -200,4 +200,12 @@ class PxPayGatewayTest extends GatewayTestCase
 
         $response = $this->gateway->completePurchase($this->options)->send();
     }
+
+    public function testVersionableEndpoint()
+    {
+        $this->assertSame('https://sec.paymentexpress.com/pxaccess/pxpay.aspx', $this->gateway->purchase()->getEndpoint());
+
+        $this->gateway->setVersion(1);
+        $this->assertSame('https://sec.paymentexpress.com/pxpay/pxaccess.aspx', $this->gateway->purchase()->getEndpoint());
+    }
 }
