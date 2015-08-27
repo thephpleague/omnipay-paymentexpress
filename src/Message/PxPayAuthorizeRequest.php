@@ -41,6 +41,7 @@ class PxPayAuthorizeRequest extends AbstractRequest
         $data->PxPayUserId = $this->getUsername();
         $data->PxPayKey = $this->getPassword();
         $data->TxnType = $this->action;
+        $data->TxnId = $this->getTransactionId();
         $data->AmountInput = $this->getAmount();
         $data->CurrencyInput = $this->getCurrency();
         $data->MerchantReference = $this->getDescription();
