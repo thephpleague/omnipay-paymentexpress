@@ -61,6 +61,7 @@ class PxPayAuthorizeRequest extends AbstractRequest
 
     /**
      * Set the PxPay PxPayKey
+     *
      * @param string $value
      * @return $this
      */
@@ -135,6 +136,7 @@ class PxPayAuthorizeRequest extends AbstractRequest
 
     /**
      * Set the TxnData3 field on the request
+     *
      * @param string $value Max 255 bytes
      * @return $this
      */
