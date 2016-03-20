@@ -48,11 +48,11 @@ class PxPayGatewayTest extends GatewayTestCase
     {
         $this->setMockHttpResponse('PxPayPurchaseSuccess.txt');
 
-        $options = array_merge($this->options, [
+        $options = array_merge($this->options, array(
             'transactionData1' => 'Business Name',
             'transactionData2' => 'Business Phone',
             'transactionData3' => 'Business ID',
-        ]);
+        ));
 
         $request = $this->gateway->authorize($options);
 
