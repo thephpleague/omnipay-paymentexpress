@@ -70,6 +70,27 @@ class PxPayAuthorizeRequest extends AbstractRequest
         return $this->setParameter('password', $value);
     }
 
+    public function getPxPostUsername()
+    {
+        return $this->getParameter('pxPostUsername');
+    }
+
+    public function setPxPostUsername($value)
+    {
+        return $this->setParameter('pxPostUsername', $value);
+    }
+
+
+    public function getPxPostPassword()
+    {
+        return $this->getParameter('pxPostPassword');
+    }
+
+    public function setPxPostPassword($value)
+    {
+        return $this->setParameter('pxPostPassword', $value);
+    }
+
     /**
      * Get the PxPay TxnData1
      *
