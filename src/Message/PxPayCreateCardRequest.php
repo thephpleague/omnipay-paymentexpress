@@ -7,12 +7,24 @@ namespace Omnipay\PaymentExpress\Message;
  */
 class PxPayCreateCardRequest extends PxPayAuthorizeRequest
 {
+    public function getAction()
+    {
+        return $this->getParameter('action');
+    }
+
+    public function setAction($value)
+    {
+        return $this->setParameter('action', $value);
+    }
+
     public function getData()
     {
-        $amount = $this->getAmount() ? $this->getAmount() : '1.00';
-        $this->setAmount($amount);
+        $this->setAmount($this->getAmount() ? $this->getAmount() : '1.00');
 
-        $this->setCurrency('NZD');
+
+        if ($this->getAction()) {
+            $this->action = $this->getAction();
+        }
 
         $data = parent::getData();
         $data->EnableAddBillCard = 1;

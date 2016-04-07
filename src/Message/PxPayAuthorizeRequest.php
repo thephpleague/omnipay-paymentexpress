@@ -168,6 +168,10 @@ class PxPayAuthorizeRequest extends AbstractRequest
         $data->UrlSuccess = $this->getReturnUrl();
         $data->UrlFail = $this->getReturnUrl();
 
+        if ($this->getCardReference()) {
+            $data->DpsBillingId = $this->getCardReference();
+        }
+
         return $data;
     }
 
