@@ -32,6 +32,81 @@ class PxPostAuthorizeRequest extends AbstractRequest
         return $this->setParameter('password', $value);
     }
 
+    /**
+     * Get the PxPost TxnData1
+     *
+     * Optional free text field that can be used to store information against a
+     * transaction. Returned in the response and can be retrieved from DPS
+     * reports.
+     *
+     * @return mixed
+     */
+    public function getTransactionData1()
+    {
+        return $this->getParameter('transactionData1');
+    }
+
+    /**
+     * Set the PxPost TxnData1
+     *
+     * @param string $value Max 255 bytes
+     * @return $this
+     */
+    public function setTransactionData1($value)
+    {
+        return $this->setParameter('transactionData1', $value);
+    }
+
+    /**
+     * Get the PxPost TxnData2
+     *
+     * Optional free text field that can be used to store information against a
+     * transaction. Returned in the response and can be retrieved from DPS
+     * reports.
+     *
+     * @return mixed
+     */
+    public function getTransactionData2()
+    {
+        return $this->getParameter('transactionData2');
+    }
+
+    /**
+     * Set the PxPost TxnData2
+     *
+     * @param string $value Max 255 bytes
+     * @return $this
+     */
+    public function setTransactionData2($value)
+    {
+        return $this->setParameter('transactionData2', $value);
+    }
+
+    /**
+     * Get the PxPost TxnData3
+     *
+     * Optional free text field that can be used to store information against a
+     * transaction. Returned in the response and can be retrieved from DPS
+     * reports.
+     *
+     * @return mixed
+     */
+    public function getTransactionData3()
+    {
+        return $this->getParameter('transactionData3');
+    }
+
+    /**
+     * Set the PxPost TxnData3
+     *
+     * @param string $value Max 255 bytes
+     * @return $this
+     */
+    public function setTransactionData3($value)
+    {
+        return $this->setParameter('transactionData3', $value);
+    }
+
     protected function getBaseData()
     {
         $data = new \SimpleXMLElement('<Txn />');
@@ -51,6 +126,9 @@ class PxPostAuthorizeRequest extends AbstractRequest
         $data->Amount = $this->getAmount();
         $data->MerchantReference = $this->getDescription();
         $data->TxnId = $this->getTransactionId();
+        $data->TxnData1 = $this->getTransactionData1();
+        $data->TxnData2 = $this->getTransactionData2();
+        $data->TxnData3 = $this->getTransactionData3();
 
         if ($this->getCardReference()) {
             $data->DpsBillingId = $this->getCardReference();
