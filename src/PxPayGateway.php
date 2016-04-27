@@ -25,6 +25,7 @@ class PxPayGateway extends AbstractGateway
             'password' => '',
             'pxPostUsername' => '',
             'pxPostPassword' => '',
+            'testMode' => false,
         );
     }
 
