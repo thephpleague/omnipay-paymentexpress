@@ -49,6 +49,8 @@ class PxPayGatewayTest extends GatewayTestCase
         $this->setMockHttpResponse('PxPayPurchaseSuccess.txt');
 
         $options = array_merge($this->options, array(
+            'description'      => 'TestReference',
+            'transactionId'    => 'Business Name',
             'transactionData1' => 'Business Name',
             'transactionData2' => 'Business Phone',
             'transactionData3' => 'Business ID',
@@ -56,6 +58,8 @@ class PxPayGatewayTest extends GatewayTestCase
 
         $request = $this->gateway->authorize($options);
 
+        $this->assertSame($options['description'], $request->getDescription());
+        $this->assertSame($options['transactionId'], $request->getTransactionId());
         $this->assertSame($options['transactionData1'], $request->getTransactionData1());
         $this->assertSame($options['transactionData2'], $request->getTransactionData2());
         $this->assertSame($options['transactionData3'], $request->getTransactionData3());
@@ -200,6 +204,33 @@ class PxPayGatewayTest extends GatewayTestCase
         $this->assertTrue($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
         $this->assertSame('0000000103f5dc65', $response->getTransactionReference());
+        $this->assertSame('APPROVED', $response->getMessage());
+    }
+
+    public function testCompletePurchaseWithTransactionDataSuccess()
+    {
+        $this->getHttpRequest()->query->replace(array('result' => 'abc123'));
+
+        $this->setMockHttpResponse('PxPayCompletePurchaseSuccess.txt');
+
+        $options = array_merge($this->options, array(
+            'MerchantReference' => 'TestReference',
+            'TxnId'             => 'P075985DA31094D8',
+            'TxnData1'          => 'Business Name',
+            'TxnData2'          => 'Business Phone',
+            'TxnData3'          => 'Business ID',
+        ));
+
+        $response = $this->gateway->completePurchase($options)->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertFalse($response->isRedirect());
+        $this->assertSame('0000000103f5dc65', $response->getTransactionReference());
+        $this->assertSame('TestReference', $response->getData()->MerchantReference->__toString());
+        $this->assertSame('P075985DA31094D8', $response->getData()->TxnId->__toString());
+        $this->assertSame('Business Name', $response->getData()->TxnData1->__toString());
+        $this->assertSame('Business Phone', $response->getData()->TxnData2->__toString());
+        $this->assertSame('Business ID', $response->getData()->TxnData3->__toString());
         $this->assertSame('APPROVED', $response->getMessage());
     }
 
