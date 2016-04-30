@@ -50,7 +50,7 @@ class PxPayGatewayTest extends GatewayTestCase
 
         $options = array_merge($this->options, array(
             'description'      => 'TestReference',
-            'transactionId'    => 'Business Name',
+            'transactionId'    => 'P075985DA31094D8',
             'transactionData1' => 'Business Name',
             'transactionData2' => 'Business Phone',
             'transactionData3' => 'Business ID',
