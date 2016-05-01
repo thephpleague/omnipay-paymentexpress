@@ -42,6 +42,7 @@ class PxPayGatewayTest extends GatewayTestCase
         $this->assertFalse($response->isRedirect());
         $this->assertNull($response->getTransactionReference());
         $this->assertNull($response->getRedirectData());
+        $this->assertNull($response->getRedirectUrl());
         $this->assertSame('Invalid Key', $response->getMessage());
     }
 
