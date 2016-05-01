@@ -41,6 +41,7 @@ class PxPayGatewayTest extends GatewayTestCase
         $this->assertFalse($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
         $this->assertNull($response->getTransactionReference());
+        $this->assertNull($response->getRedirectData());
         $this->assertSame('Invalid Key', $response->getMessage());
     }
 
@@ -54,6 +55,7 @@ class PxPayGatewayTest extends GatewayTestCase
             'transactionData1' => 'Business Name',
             'transactionData2' => 'Business Phone',
             'transactionData3' => 'Business ID',
+            'cardReference'    => '000000030884cdc6'
         ));
 
         $request = $this->gateway->authorize($options);
@@ -63,6 +65,7 @@ class PxPayGatewayTest extends GatewayTestCase
         $this->assertSame($options['transactionData1'], $request->getTransactionData1());
         $this->assertSame($options['transactionData2'], $request->getTransactionData2());
         $this->assertSame($options['transactionData3'], $request->getTransactionData3());
+        $this->assertSame($options['cardReference'], $request->getCardReference());
 
         $response = $request->send();
 
@@ -160,7 +163,7 @@ class PxPayGatewayTest extends GatewayTestCase
 
         $this->setMockHttpResponse('PxPayCompleteCreateCardSuccess.txt');
 
-        $response = $this->gateway->completeAuthorize($this->options)->send();
+        $response = $this->gateway->completeCreateCard($this->options)->send();
 
         $this->assertTrue($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
@@ -175,7 +178,7 @@ class PxPayGatewayTest extends GatewayTestCase
 
         $this->setMockHttpResponse('PxPayCompleteCreateCardFailure.txt');
 
-        $response = $this->gateway->completeAuthorize($this->options)->send();
+        $response = $this->gateway->completeCreateCard($this->options)->send();
 
         $this->assertFalse($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
@@ -227,7 +230,7 @@ class PxPayGatewayTest extends GatewayTestCase
         $this->assertFalse($response->isRedirect());
         $this->assertSame('0000000103f5dc65', $response->getTransactionReference());
         $this->assertSame('TestReference', $response->getData()->MerchantReference->__toString());
-        $this->assertSame('P075985DA31094D8', $response->getData()->TxnId->__toString());
+        $this->assertSame('P075985DA31094D8', $response->getTransactionId());
         $this->assertSame('Business Name', $response->getData()->TxnData1->__toString());
         $this->assertSame('Business Phone', $response->getData()->TxnData2->__toString());
         $this->assertSame('Business ID', $response->getData()->TxnData3->__toString());
