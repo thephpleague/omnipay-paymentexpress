@@ -92,6 +92,25 @@ class PxPayGatewayTest extends GatewayTestCase
         $this->assertSame('GET', $response->getRedirectMethod());
     }
 
+    public function testPurchasWithCardReferenceSuccess()
+    {
+        $this->setMockHttpResponse('PxPayPurchaseSuccess.txt');
+
+        $options = array_merge($this->options, array(
+            'cardReference'     => 'Card reference',
+            'EnableAddBillCard' => 1
+        ));
+
+        $this->gateway->setPxPostUsername('ABC');
+        $this->gateway->setPxPostPassword('123');
+        $response = $this->gateway->purchase($options)->send();
+
+        $this->assertFalse($response->isSuccessful());
+        $this->assertFalse($response->isRedirect());
+        $this->assertNull($response->getTransactionReference());
+        $this->assertSame('The transaction was Declined (JD)', $response->getMessage());
+    }
+
     public function testPurchaseFailure()
     {
         $this->setMockHttpResponse('PxPayPurchaseFailure.txt');
