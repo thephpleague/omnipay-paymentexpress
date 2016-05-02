@@ -13,11 +13,18 @@ use Omnipay\Common\Message\AbstractRequest;
 class PxPayAuthorizeRequest extends AbstractRequest
 {
     /**
-     * PxPay Endpoint URL
+     * PxPay Live Endpoint URL
      *
      * @var string URL
      */
-    protected $endpoint = 'https://sec.paymentexpress.com/pxaccess/pxpay.aspx';
+    protected $liveEndpoint = 'https://sec.paymentexpress.com/pxaccess/pxpay.aspx';
+
+    /**
+     * PxPay test Endpoint URL
+     *
+     * @var string URL
+     */
+    protected $testEndpoint = 'https://uat.paymentexpress.com/pxaccess/pxpay.aspx';
 
     /**
      * PxPay TxnType
@@ -80,7 +87,6 @@ class PxPayAuthorizeRequest extends AbstractRequest
         return $this->setParameter('pxPostUsername', $value);
     }
 
-
     public function getPxPostPassword()
     {
         return $this->getParameter('pxPostPassword');
@@ -89,6 +95,11 @@ class PxPayAuthorizeRequest extends AbstractRequest
     public function setPxPostPassword($value)
     {
         return $this->setParameter('pxPostPassword', $value);
+    }
+
+    public function getEndpoint()
+    {
+        return $this->getTestMode() === true ? $this->testEndpoint : $this->liveEndpoint;
     }
 
     /**
@@ -204,7 +215,7 @@ class PxPayAuthorizeRequest extends AbstractRequest
      */
     public function sendData($data)
     {
-        $httpResponse = $this->httpClient->post($this->endpoint, null, $data->asXML())->send();
+        $httpResponse = $this->httpClient->post($this->getEndpoint(), null, $data->asXML())->send();
 
         return $this->createResponse($httpResponse->xml());
     }

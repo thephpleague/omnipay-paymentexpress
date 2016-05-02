@@ -226,4 +226,28 @@ class PxPayGatewayTest extends GatewayTestCase
 
         $response = $this->gateway->completePurchase($this->options)->send();
     }
+
+    public function testTestModeDisabled()
+    {
+        $options = array(
+            'testMode' => false
+        );
+
+        $request = $this->gateway->authorize($options);
+
+        $this->assertFalse($request->getTestMode());
+        $this->assertContains('sec.paymentexpress.com', $request->getEndpoint());
+    }
+
+    public function testTestModeEnabled()
+    {
+        $options = array(
+            'testMode' => true
+        );
+
+        $request = $this->gateway->authorize($options);
+
+        $this->assertTrue($request->getTestMode());
+        $this->assertContains('uat.paymentexpress.com', $request->getEndpoint());
+    }
 }
