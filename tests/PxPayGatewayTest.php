@@ -41,6 +41,8 @@ class PxPayGatewayTest extends GatewayTestCase
         $this->assertFalse($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
         $this->assertNull($response->getTransactionReference());
+        $this->assertNull($response->getRedirectData());
+        $this->assertNull($response->getRedirectUrl());
         $this->assertSame('Invalid Key', $response->getMessage());
     }
 
@@ -49,16 +51,22 @@ class PxPayGatewayTest extends GatewayTestCase
         $this->setMockHttpResponse('PxPayPurchaseSuccess.txt');
 
         $options = array_merge($this->options, array(
+            'description'      => 'TestReference',
+            'transactionId'    => 'P075985DA31094D8',
             'transactionData1' => 'Business Name',
             'transactionData2' => 'Business Phone',
             'transactionData3' => 'Business ID',
+            'cardReference'    => '000000030884cdc6'
         ));
 
         $request = $this->gateway->authorize($options);
 
+        $this->assertSame($options['description'], $request->getDescription());
+        $this->assertSame($options['transactionId'], $request->getTransactionId());
         $this->assertSame($options['transactionData1'], $request->getTransactionData1());
         $this->assertSame($options['transactionData2'], $request->getTransactionData2());
         $this->assertSame($options['transactionData3'], $request->getTransactionData3());
+        $this->assertSame($options['cardReference'], $request->getCardReference());
 
         $response = $request->send();
 
@@ -82,6 +90,25 @@ class PxPayGatewayTest extends GatewayTestCase
         $this->assertNull($response->getMessage());
         $this->assertSame('https://sec.paymentexpress.com/pxpay/pxpay.aspx?userid=Developer&request=v5H7JrBTzH-4Whs__1iQnz4RGSb9qxRKNR4kIuDP8kIkQzIDiIob9GTIjw_9q_AdRiR47ViWGVx40uRMu52yz2mijT39YtGeO7cZWrL5rfnx0Mc4DltIHRnIUxy1EO1srkNpxaU8fT8_1xMMRmLa-8Fd9bT8Oq0BaWMxMquYa1hDNwvoGs1SJQOAJvyyKACvvwsbMCC2qJVyN0rlvwUoMtx6gGhvmk7ucEsPc_Cyr5kNl3qURnrLKxINnS0trdpU4kXPKOlmT6VacjzT1zuj_DnrsWAPFSFq-hGsow6GpKKciQ0V0aFbAqECN8rl_c-aZWFFy0gkfjnUM4qp6foS0KMopJlPzGAgMjV6qZ0WfleOT64c3E-FRLMP5V_-mILs8a', $response->getRedirectUrl());
         $this->assertSame('GET', $response->getRedirectMethod());
+    }
+
+    public function testPurchasWithCardReferenceSuccess()
+    {
+        $this->setMockHttpResponse('PxPayPurchaseSuccess.txt');
+
+        $options = array_merge($this->options, array(
+            'cardReference'     => 'Card reference',
+            'EnableAddBillCard' => 1
+        ));
+
+        $this->gateway->setPxPostUsername('ABC');
+        $this->gateway->setPxPostPassword('123');
+        $response = $this->gateway->purchase($options)->send();
+
+        $this->assertFalse($response->isSuccessful());
+        $this->assertFalse($response->isRedirect());
+        $this->assertNull($response->getTransactionReference());
+        $this->assertSame('The transaction was Declined (JD)', $response->getMessage());
     }
 
     public function testPurchaseFailure()
@@ -156,7 +183,7 @@ class PxPayGatewayTest extends GatewayTestCase
 
         $this->setMockHttpResponse('PxPayCompleteCreateCardSuccess.txt');
 
-        $response = $this->gateway->completeAuthorize($this->options)->send();
+        $response = $this->gateway->completeCreateCard($this->options)->send();
 
         $this->assertTrue($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
@@ -171,7 +198,7 @@ class PxPayGatewayTest extends GatewayTestCase
 
         $this->setMockHttpResponse('PxPayCompleteCreateCardFailure.txt');
 
-        $response = $this->gateway->completeAuthorize($this->options)->send();
+        $response = $this->gateway->completeCreateCard($this->options)->send();
 
         $this->assertFalse($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
@@ -200,6 +227,33 @@ class PxPayGatewayTest extends GatewayTestCase
         $this->assertTrue($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
         $this->assertSame('0000000103f5dc65', $response->getTransactionReference());
+        $this->assertSame('APPROVED', $response->getMessage());
+    }
+
+    public function testCompletePurchaseWithTransactionDataSuccess()
+    {
+        $this->getHttpRequest()->query->replace(array('result' => 'abc123'));
+
+        $this->setMockHttpResponse('PxPayCompletePurchaseSuccess.txt');
+
+        $options = array_merge($this->options, array(
+            'MerchantReference' => 'TestReference',
+            'TxnId'             => 'P075985DA31094D8',
+            'TxnData1'          => 'Business Name',
+            'TxnData2'          => 'Business Phone',
+            'TxnData3'          => 'Business ID',
+        ));
+
+        $response = $this->gateway->completePurchase($options)->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertFalse($response->isRedirect());
+        $this->assertSame('0000000103f5dc65', $response->getTransactionReference());
+        $this->assertSame('TestReference', $response->getData()->MerchantReference->__toString());
+        $this->assertSame('P075985DA31094D8', $response->getTransactionId());
+        $this->assertSame('Business Name', $response->getData()->TxnData1->__toString());
+        $this->assertSame('Business Phone', $response->getData()->TxnData2->__toString());
+        $this->assertSame('Business ID', $response->getData()->TxnData3->__toString());
         $this->assertSame('APPROVED', $response->getMessage());
     }
 
