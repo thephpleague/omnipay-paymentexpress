@@ -17,7 +17,7 @@ class PxPayAuthorizeResponse extends AbstractResponse implements RedirectRespons
 
     public function isRedirect()
     {
-        return 1 === (int) $this->data['valid'];
+        return ((1 === (int) $this->data['valid']) && !empty($this->data->URI));
     }
 
     public function getTransactionReference()
@@ -28,7 +28,7 @@ class PxPayAuthorizeResponse extends AbstractResponse implements RedirectRespons
     public function getMessage()
     {
         if (!$this->isRedirect()) {
-            return (string) $this->data->URI;
+            return $this->data->URI ? (string) $this->data->URI : (string) $this->data->ResponseText;
         }
     }
 
