@@ -14,6 +14,12 @@ class PxFusionPurchaseResponse extends AbstractResponse implements RedirectRespo
 {
     public $namespace = 'http://schemas.datacontract.org/2004/07/';
 
+    /**
+     * PxFusionPurchaseResponse constructor.
+     *
+     * @param RequestInterface $request
+     * @param \Guzzle\Http\EntityBody $data
+     */
     public function __construct(RequestInterface $request, $data)
     {
         $this->request = $request;
@@ -36,7 +42,12 @@ class PxFusionPurchaseResponse extends AbstractResponse implements RedirectRespo
         return ((string) $this->data->success === 'true');
     }
 
-    public function getTransactionReference()
+    public function isTransparentRedirect()
+    {
+        return true;
+    }
+
+    public function getSessionId()
     {
         if ($this->isRedirect()) {
             return (string) $this->data->sessionId;
@@ -59,7 +70,7 @@ class PxFusionPurchaseResponse extends AbstractResponse implements RedirectRespo
     {
         if ($this->isRedirect()) {
             return array(
-                'SessionId' => $this->getTransactionReference(),
+                'SessionId' => $this->getSessionId(),
             );
         }
     }
