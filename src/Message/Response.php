@@ -26,10 +26,10 @@ class Response extends AbstractResponse
 
     public function getCardReference()
     {
-        if (! empty($this->data->Transaction->DpsBillingId)) {
-            return (string) $this->data->Transaction->DpsBillingId;
-        } elseif (! empty($this->data->DpsBillingId)) {
-            return (string) $this->data->DpsBillingId;
+        if (! empty($this->data->Transaction->BillingId)) {
+            return (string) $this->data->Transaction->BillingId;
+        } elseif (! empty($this->data->BillingId)) {
+            return (string) $this->data->BillingId;
         }
 
         return null;

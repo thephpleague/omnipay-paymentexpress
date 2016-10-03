@@ -152,7 +152,7 @@ class PxPostAuthorizeRequest extends AbstractRequest
         }
 
         if ($this->getCardReference()) {
-            $data->DpsBillingId = $this->getCardReference();
+            $data->BillingId = $this->getCardReference();
         } elseif ($this->getCard()) {
             $this->getCard()->validate();
             $data->CardNumber = $this->getCard()->getNumber();
