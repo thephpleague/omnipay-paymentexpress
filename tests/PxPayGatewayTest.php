@@ -24,12 +24,7 @@ class PxPayGatewayTest extends GatewayTestCase
 
         $response = $this->gateway->authorize($this->options)->send();
 
-        $this->assertFalse($response->isSuccessful());
-        $this->assertTrue($response->isRedirect());
-        $this->assertNull($response->getTransactionReference());
-        $this->assertNull($response->getMessage());
-        $this->assertSame('https://sec.paymentexpress.com/pxpay/pxpay.aspx?userid=Developer&request=v5H7JrBTzH-4Whs__1iQnz4RGSb9qxRKNR4kIuDP8kIkQzIDiIob9GTIjw_9q_AdRiR47ViWGVx40uRMu52yz2mijT39YtGeO7cZWrL5rfnx0Mc4DltIHRnIUxy1EO1srkNpxaU8fT8_1xMMRmLa-8Fd9bT8Oq0BaWMxMquYa1hDNwvoGs1SJQOAJvyyKACvvwsbMCC2qJVyN0rlvwUoMtx6gGhvmk7ucEsPc_Cyr5kNl3qURnrLKxINnS0trdpU4kXPKOlmT6VacjzT1zuj_DnrsWAPFSFq-hGsow6GpKKciQ0V0aFbAqECN8rl_c-aZWFFy0gkfjnUM4qp6foS0KMopJlPzGAgMjV6qZ0WfleOT64c3E-FRLMP5V_-mILs8a', $response->getRedirectUrl());
-        $this->assertSame('GET', $response->getRedirectMethod());
+      $this->_testSuccessfulPurchase($response);
     }
 
     public function testAuthorizeFailure()
@@ -70,12 +65,7 @@ class PxPayGatewayTest extends GatewayTestCase
 
         $response = $request->send();
 
-        $this->assertFalse($response->isSuccessful());
-        $this->assertTrue($response->isRedirect());
-        $this->assertNull($response->getTransactionReference());
-        $this->assertNull($response->getMessage());
-        $this->assertSame('https://sec.paymentexpress.com/pxpay/pxpay.aspx?userid=Developer&request=v5H7JrBTzH-4Whs__1iQnz4RGSb9qxRKNR4kIuDP8kIkQzIDiIob9GTIjw_9q_AdRiR47ViWGVx40uRMu52yz2mijT39YtGeO7cZWrL5rfnx0Mc4DltIHRnIUxy1EO1srkNpxaU8fT8_1xMMRmLa-8Fd9bT8Oq0BaWMxMquYa1hDNwvoGs1SJQOAJvyyKACvvwsbMCC2qJVyN0rlvwUoMtx6gGhvmk7ucEsPc_Cyr5kNl3qURnrLKxINnS0trdpU4kXPKOlmT6VacjzT1zuj_DnrsWAPFSFq-hGsow6GpKKciQ0V0aFbAqECN8rl_c-aZWFFy0gkfjnUM4qp6foS0KMopJlPzGAgMjV6qZ0WfleOT64c3E-FRLMP5V_-mILs8a', $response->getRedirectUrl());
-        $this->assertSame('GET', $response->getRedirectMethod());
+      $this->_testSuccessfulPurchase($response);
     }
 
     public function testPurchaseSuccess()
@@ -84,12 +74,7 @@ class PxPayGatewayTest extends GatewayTestCase
 
         $response = $this->gateway->purchase($this->options)->send();
 
-        $this->assertFalse($response->isSuccessful());
-        $this->assertTrue($response->isRedirect());
-        $this->assertNull($response->getTransactionReference());
-        $this->assertNull($response->getMessage());
-        $this->assertSame('https://sec.paymentexpress.com/pxpay/pxpay.aspx?userid=Developer&request=v5H7JrBTzH-4Whs__1iQnz4RGSb9qxRKNR4kIuDP8kIkQzIDiIob9GTIjw_9q_AdRiR47ViWGVx40uRMu52yz2mijT39YtGeO7cZWrL5rfnx0Mc4DltIHRnIUxy1EO1srkNpxaU8fT8_1xMMRmLa-8Fd9bT8Oq0BaWMxMquYa1hDNwvoGs1SJQOAJvyyKACvvwsbMCC2qJVyN0rlvwUoMtx6gGhvmk7ucEsPc_Cyr5kNl3qURnrLKxINnS0trdpU4kXPKOlmT6VacjzT1zuj_DnrsWAPFSFq-hGsow6GpKKciQ0V0aFbAqECN8rl_c-aZWFFy0gkfjnUM4qp6foS0KMopJlPzGAgMjV6qZ0WfleOT64c3E-FRLMP5V_-mILs8a', $response->getRedirectUrl());
-        $this->assertSame('GET', $response->getRedirectMethod());
+      $this->_testSuccessfulPurchase($response);
     }
 
     public function testPurchaseWithCardReferenceSuccess()
@@ -103,10 +88,7 @@ class PxPayGatewayTest extends GatewayTestCase
 
         $response = $this->gateway->purchase($options)->send();
 
-        $this->assertFalse($response->isSuccessful());
-        $this->assertFalse($response->isRedirect());
-        $this->assertNull($response->getTransactionReference());
-        $this->assertSame('The transaction was Declined (JD)', $response->getMessage());
+      $this->_testSuccessfulPurchase($response);
     }
 
     public function testPurchaseFailure()
@@ -302,4 +284,16 @@ class PxPayGatewayTest extends GatewayTestCase
         $this->assertTrue($request->getTestMode());
         $this->assertContains('uat.paymentexpress.com', $request->getEndpoint());
     }
+
+    private function _testSuccessfulPurchase($response)
+    {
+      $this->assertFalse($response->isSuccessful());
+      $this->assertTrue($response->isRedirect());
+      $this->assertNull($response->getTransactionReference());
+      $this->assertNull($response->getMessage());
+      $this->assertSame('https://sec.paymentexpress.com/pxpay/pxpay.aspx?userid=Developer&request=v5H7JrBTzH-4Whs__1iQnz4RGSb9qxRKNR4kIuDP8kIkQzIDiIob9GTIjw_9q_AdRiR47ViWGVx40uRMu52yz2mijT39YtGeO7cZWrL5rfnx0Mc4DltIHRnIUxy1EO1srkNpxaU8fT8_1xMMRmLa-8Fd9bT8Oq0BaWMxMquYa1hDNwvoGs1SJQOAJvyyKACvvwsbMCC2qJVyN0rlvwUoMtx6gGhvmk7ucEsPc_Cyr5kNl3qURnrLKxINnS0trdpU4kXPKOlmT6VacjzT1zuj_DnrsWAPFSFq-hGsow6GpKKciQ0V0aFbAqECN8rl_c-aZWFFy0gkfjnUM4qp6foS0KMopJlPzGAgMjV6qZ0WfleOT64c3E-FRLMP5V_-mILs8a',
+        $response->getRedirectUrl());
+      $this->assertSame('GET', $response->getRedirectMethod());
+    }
+
 }
