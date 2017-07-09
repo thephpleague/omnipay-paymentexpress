@@ -101,8 +101,6 @@ class PxPayGatewayTest extends GatewayTestCase
             'EnableAddBillCard' => 1
         ));
 
-        $this->gateway->setPxPostUsername('ABC');
-        $this->gateway->setPxPostPassword('123');
         $response = $this->gateway->purchase($options)->send();
 
         $this->assertFalse($response->isSuccessful());
