@@ -92,7 +92,7 @@ class PxPayGatewayTest extends GatewayTestCase
         $this->assertSame('GET', $response->getRedirectMethod());
     }
 
-    public function testPurchasWithCardReferenceSuccess()
+    public function testPurchaseWithCardReferenceSuccess()
     {
         $this->setMockHttpResponse('PxPayPurchaseSuccess.txt');
 
