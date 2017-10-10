@@ -14,7 +14,10 @@ class PxPayCompleteAuthorizeRequest extends PxPayAuthorizeRequest
     {
         $result = $this->httpRequest->query->get('result');
         if (empty($result)) {
-            throw new InvalidResponseException;
+            $result = $this->httpRequest->request->get('result');
+            if (empty($result)) {
+                throw new InvalidResponseException;
+            }
         }
 
         // validate dps response

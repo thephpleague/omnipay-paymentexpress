@@ -143,6 +143,21 @@ class PxPayGatewayTest extends GatewayTestCase
         $this->assertSame('APPROVED', $response->getMessage());
     }
 
+    public function testCompleteAuthorizeSuccessWithPostResult()
+    {
+        $this->getHttpRequest()->query->replace(array());
+        $this->getHttpRequest()->request->replace(array('result' => 'abc123'));
+
+        $this->setMockHttpResponse('PxPayCompletePurchaseSuccess.txt');
+
+        $response = $this->gateway->completeAuthorize($this->options)->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertFalse($response->isRedirect());
+        $this->assertSame('0000000103f5dc65', $response->getTransactionReference());
+        $this->assertSame('APPROVED', $response->getMessage());
+    }
+
     public function testCompleteAuthorizeFailure()
     {
         $this->getHttpRequest()->query->replace(array('result' => 'abc123'));
