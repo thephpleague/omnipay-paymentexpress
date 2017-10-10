@@ -33,6 +33,7 @@ The following gateways are provided by this package:
 
 * PaymentExpress_PxPay. The PxPay version 2.0 endpoint is supported. If you are still using the version 1.0 endpoint then please contact PxPay and they will change you to the 2.0 endpoint. The API is backwards compatible.
 * PaymentExpress_PxPost
+* PaymentExpress_PxFusion
 
 For general usage instructions, please see the main [Omnipay](https://github.com/thephpleague/omnipay)
 repository.

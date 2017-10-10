@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"><s:Body><GetTransactionIdResponse
+        xmlns="http://paymentexpress.com"><GetTransactionIdResult xmlns:a="http://schemas.datacontract.org/2004/07/"
+        xmlns:i="http://www.w3.org/2001/XMLSchema-instance"><a:sessionId/><a:success>false</a:success><a:transactionId/></GetTransactionIdResult></GetTransactionIdResponse></s:Body></s:Envelope>
