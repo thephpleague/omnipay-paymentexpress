@@ -2,6 +2,7 @@
 
 namespace Omnipay\PaymentExpress;
 
+use Guzzle\Http\Client as HttpClient;
 use Omnipay\Common\AbstractGateway;
 use Omnipay\PaymentExpress\Message\PxPostAuthorizeRequest;
 use Omnipay\PaymentExpress\Message\PxPostCaptureRequest;
@@ -70,5 +71,25 @@ class PxPostGateway extends AbstractGateway
     public function createCard(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\PaymentExpress\Message\PxPostCreateCardRequest', $parameters);
+    }
+
+    /**
+     * Force the default HTTP client to use TLS 1.2
+     *
+     * Note: using raw 6 instead of CURL_SSLVERSION_TLSv1_2 as the constant is PHP 5.5+
+     *
+     * @return HttpClient
+     */
+    protected function getDefaultHttpClient()
+    {
+        return new HttpClient(
+            '',
+            array(
+                'curl.options' => array(
+                    CURLOPT_CONNECTTIMEOUT => 60,
+                    CURLOPT_SSLVERSION => 6,
+                ),
+            )
+        );
     }
 }
