@@ -48,25 +48,6 @@ class PxPostGateway extends AbstractGateway
         return $this->setParameter('password', $value);
     }
 
-    /**
-     * @return mixed
-     */
-    public function getReceiptEmail()
-    {
-        return $this->getParameter('ReceiptEmail');
-    }
-
-    /**
-     * @param mixed $email
-     * @return $this
-     */
-    public function setReceiptEmail($email)
-    {
-        $this->setParameter('ReceiptEmail', $email);
-
-        return $this;
-    }
-
     public function authorize(array $parameters = array())
     {
         return $this->createRequest('\Omnipay\PaymentExpress\Message\PxPostAuthorizeRequest', $parameters);
