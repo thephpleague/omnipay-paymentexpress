@@ -9,7 +9,8 @@ class ResponseTest extends TestCase
     public function testPurchaseSuccess()
     {
         $httpResponse = $this->getMockHttpResponse('PxPostPurchaseSuccess.txt');
-        $response = new Response($this->getMockRequest(), $httpResponse->xml());
+        $xml = simplexml_load_string($httpResponse->getBody()->getContents());
+        $response = new Response($this->getMockRequest(), $xml);
 
         $this->assertTrue($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
@@ -21,7 +22,8 @@ class ResponseTest extends TestCase
     public function testPurchaseFailure()
     {
         $httpResponse = $this->getMockHttpResponse('PxPostPurchaseFailure.txt');
-        $response = new Response($this->getMockRequest(), $httpResponse->xml());
+        $xml = simplexml_load_string($httpResponse->getBody()->getContents());
+        $response = new Response($this->getMockRequest(), $xml);
 
         $this->assertFalse($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
@@ -33,7 +35,8 @@ class ResponseTest extends TestCase
     public function testCompletePurchaseSuccess()
     {
         $httpResponse = $this->getMockHttpResponse('PxPayCompletePurchaseSuccess.txt');
-        $response = new Response($this->getMockRequest(), $httpResponse->xml());
+        $xml = simplexml_load_string($httpResponse->getBody()->getContents());
+        $response = new Response($this->getMockRequest(), $xml);
 
         $this->assertTrue($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
@@ -45,7 +48,8 @@ class ResponseTest extends TestCase
     public function testCompletePurchaseFailure()
     {
         $httpResponse = $this->getMockHttpResponse('PxPayCompletePurchaseFailure.txt');
-        $response = new Response($this->getMockRequest(), $httpResponse->xml());
+        $xml = simplexml_load_string($httpResponse->getBody()->getContents());
+        $response = new Response($this->getMockRequest(), $xml);
 
         $this->assertFalse($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
@@ -57,7 +61,8 @@ class ResponseTest extends TestCase
     public function testCreateCardSuccess()
     {
         $httpResponse = $this->getMockHttpResponse('PxPostCreateCardSuccess.txt');
-        $response = new Response($this->getMockRequest(), $httpResponse->xml());
+        $xml = simplexml_load_string($httpResponse->getBody()->getContents());
+        $response = new Response($this->getMockRequest(), $xml);
 
         $this->assertTrue($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
@@ -69,7 +74,8 @@ class ResponseTest extends TestCase
     public function testCreateCardFailure()
     {
         $httpResponse = $this->getMockHttpResponse('PxPostCreateCardFailure.txt');
-        $response = new Response($this->getMockRequest(), $httpResponse->xml());
+        $xml = simplexml_load_string($httpResponse->getBody()->getContents());
+        $response = new Response($this->getMockRequest(), $xml);
 
         $this->assertFalse($response->isSuccessful());
         $this->assertFalse($response->isRedirect());

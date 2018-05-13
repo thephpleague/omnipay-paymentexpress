@@ -9,7 +9,8 @@ class PxPayAuthorizeResponseTest extends TestCase
     public function testPurchaseSuccess()
     {
         $httpResponse = $this->getMockHttpResponse('PxPayPurchaseSuccess.txt');
-        $response = new PxPayAuthorizeResponse($this->getMockRequest(), $httpResponse->xml());
+        $xml = simplexml_load_string($httpResponse->getBody()->getContents());
+        $response = new PxPayAuthorizeResponse($this->getMockRequest(), $xml);
 
         $this->assertFalse($response->isSuccessful());
         $this->assertTrue($response->isRedirect());
@@ -22,7 +23,8 @@ class PxPayAuthorizeResponseTest extends TestCase
     public function testPurchaseFailure()
     {
         $httpResponse = $this->getMockHttpResponse('PxPayPurchaseFailure.txt');
-        $response = new PxPayAuthorizeResponse($this->getMockRequest(), $httpResponse->xml());
+        $xml = simplexml_load_string($httpResponse->getBody()->getContents());
+        $response = new PxPayAuthorizeResponse($this->getMockRequest(), $xml);
 
         $this->assertFalse($response->isSuccessful());
         $this->assertFalse($response->isRedirect());

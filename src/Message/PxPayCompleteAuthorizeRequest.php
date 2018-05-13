@@ -31,6 +31,6 @@ class PxPayCompleteAuthorizeRequest extends PxPayAuthorizeRequest
 
     protected function createResponse($data)
     {
-        return $this->response = new Response($this, $data);
+        return $this->response = new Response($this, simplexml_load_string($data));
     }
 }
