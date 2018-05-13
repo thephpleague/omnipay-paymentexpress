@@ -1,0 +1,8 @@
+HTTP/1.1 200 OK
+
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"><s:Body><GetTransactionResponse
+        xmlns="http://paymentexpress.com"><GetTransactionResult xmlns:i="http://www.w3.org/2001/XMLSchema-instance"><amount>15.00</amount><authCode>123024</authCode><billingId>spree:user_id:87</billingId><cardHolderName>ALICE
+        JONES</cardHolderName><cardName>Visa</cardName><cardNumber>411111........11</cardNumber><cardNumber2/><currencyId>554</currencyId><currencyName>NZD</currencyName><currencyRate
+        i:nil="true"/><cvc2ResultCode>NotUsed</cvc2ResultCode><dateExpiry>0315</dateExpiry><dateSettlement>2013-09-23T00:00:00</dateSettlement><dpsBillingId>0000010024838715</dpsBillingId><dpsTxnRef>000000010a838c1c</dpsTxnRef><merchantReference/><responseCode>00</responseCode><responseText>APPROVED</responseText><riskRuleMatches
+        xmlns:a="http://schemas.datacontract.org/2004/07/"/><sessionId>000001001974701382c9911e025dc301</sessionId><status>0</status><testMode>false</testMode><transactionId>000001001974701382c9911e025dc301</transactionId><transactionResultFields
+        xmlns:a="http://schemas.datacontract.org/2004/07/"/><txnData1>spree:order_id:842</txnData1><txnData2>spree:user_id:871</txnData2><txnData3>spree:user_email:alice@example.com</txnData3><txnMac>2BC20210</txnMac><txnRef>spree:</txnRef><txnType>Purchase</txnType></GetTransactionResult></GetTransactionResponse></s:Body></s:Envelope>

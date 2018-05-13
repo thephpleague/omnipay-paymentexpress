@@ -2,21 +2,18 @@
 
 namespace Omnipay\PaymentExpress;
 
-use Guzzle\Http\Client as HttpClient;
 use Omnipay\Common\AbstractGateway;
-use Omnipay\PaymentExpress\Message\PxPayAuthorizeRequest;
-use Omnipay\PaymentExpress\Message\PxPayCompleteAuthorizeRequest;
-use Omnipay\PaymentExpress\Message\PxPayPurchaseRequest;
 use Omnipay\Omnipay;
+use Omnipay\PaymentExpress\Message\PxFusionCreateCardRequest;
 
 /**
- * DPS PaymentExpress PxPay Gateway
+ * DPS PaymentExpress PxFusion Gateway
  */
-class PxPayGateway extends AbstractGateway
+class PxFusionGateway extends AbstractGateway
 {
     public function getName()
     {
-        return 'PaymentExpress PxPay';
+        return 'PaymentExpress PxFusion';
     }
 
     public function getDefaultParameters()
@@ -24,9 +21,6 @@ class PxPayGateway extends AbstractGateway
         return array(
             'username' => '',
             'password' => '',
-            'pxPostUsername' => '',
-            'pxPostPassword' => '',
-            'testMode' => false,
         );
     }
 
@@ -50,6 +44,7 @@ class PxPayGateway extends AbstractGateway
         return $this->setParameter('password', $value);
     }
 
+
     public function getPxPostUsername()
     {
         return $this->getParameter('pxPostUsername');
@@ -59,7 +54,6 @@ class PxPayGateway extends AbstractGateway
     {
         return $this->setParameter('pxPostUsername', $value);
     }
-
 
     public function getPxPostPassword()
     {
@@ -71,16 +65,6 @@ class PxPayGateway extends AbstractGateway
         return $this->setParameter('pxPostPassword', $value);
     }
 
-    public function authorize(array $parameters = array())
-    {
-        return $this->createRequest('\Omnipay\PaymentExpress\Message\PxPayAuthorizeRequest', $parameters);
-    }
-
-    public function completeAuthorize(array $parameters = array())
-    {
-        return $this->createRequest('\Omnipay\PaymentExpress\Message\PxPayCompleteAuthorizeRequest', $parameters);
-    }
-
     public function purchase(array $parameters = array())
     {
         if (!empty($parameters['cardReference']) && $this->getPxPostPassword() && $this->getPxPostUsername()) {
@@ -89,41 +73,21 @@ class PxPayGateway extends AbstractGateway
             $gateway->setUserName($this->getPxPostUsername());
             return $gateway->purchase($parameters);
         }
-        return $this->createRequest('\Omnipay\PaymentExpress\Message\PxPayPurchaseRequest', $parameters);
+        return $this->createRequest('\Omnipay\PaymentExpress\Message\PxFusionPurchaseRequest', $parameters);
     }
 
     public function completePurchase(array $parameters = array())
     {
-        return $this->completeAuthorize($parameters);
+        return $this->createRequest('\Omnipay\PaymentExpress\Message\PxFusionCompletePurchaseRequest', $parameters);
     }
 
     public function createCard(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\PaymentExpress\Message\PxPayCreateCardRequest', $parameters);
+        return $this->createRequest('\Omnipay\PaymentExpress\Message\PxFusionCreateCardRequest', $parameters);
     }
 
     public function completeCreateCard(array $parameters = array())
     {
         return $this->completeAuthorize($parameters);
-    }
-
-    /**
-     * Force the default HTTP client to use TLS 1.2
-     *
-     * Note: using raw 6 instead of CURL_SSLVERSION_TLSv1_2 as the constant is PHP 5.5+
-     *
-     * @return HttpClient
-     */
-    protected function getDefaultHttpClient()
-    {
-        return new HttpClient(
-            '',
-            array(
-                'curl.options' => array(
-                    CURLOPT_CONNECTTIMEOUT => 60,
-                    CURLOPT_SSLVERSION => 6,
-                ),
-            )
-        );
     }
 }

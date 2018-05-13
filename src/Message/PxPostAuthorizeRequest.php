@@ -39,6 +39,25 @@ class PxPostAuthorizeRequest extends AbstractRequest
     }
 
     /**
+     * @return mixed
+     */
+    public function getReceiptEmail()
+    {
+        return $this->getParameter('ReceiptEmail');
+    }
+
+    /**
+     * @param mixed $email
+     * @return $this
+     */
+    public function setReceiptEmail($email)
+    {
+        $this->setParameter('ReceiptEmail', $email);
+
+        return $this;
+    }
+
+    /**
      * Get the PxPost TxnData1
      *
      * Optional free text field that can be used to store information against a
@@ -162,6 +181,10 @@ class PxPostAuthorizeRequest extends AbstractRequest
         } else {
             // either cardReference or card is required
             $this->validate('card');
+        }
+
+        if ($this->getReceiptEmail()) {
+            $data->ReceiptEmail = $this->getReceiptEmail();
         }
 
         return $data;
