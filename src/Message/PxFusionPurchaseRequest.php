@@ -109,7 +109,7 @@ class PxFusionPurchaseRequest extends AbstractRequest
             'SOAPAction' => $this->namespace.'/IPxFusion/'.$data->getName(),
         );
 
-        $httpResponse = $this->httpClient->post($this->endpoint, $headers, $document->saveXML())->send();
+        $httpResponse = $this->httpClient->request('POST', $this->endpoint, $headers, $document->saveXML());
 
         return $this->createResponse($httpResponse->getBody());
     }

@@ -18,6 +18,7 @@
     ],
     "homepage": "https://github.com/thephpleague/omnipay-paymentexpress",
     "license": "MIT",
+    "minimum-stability" : "beta",
     "authors": [
         {
             "name": "Adrian Macneil",
@@ -32,10 +33,10 @@
         "psr-4": { "Omnipay\\PaymentExpress\\" : "src/" }
     },
     "require": {
-        "omnipay/common": "~2.0"
+        "omnipay/common": "~3.0"
     },
     "require-dev": {
-        "omnipay/tests": "~2.0"
+        "omnipay/tests": "~3.0"
     },
     "extra": {
         "branch-alias": {

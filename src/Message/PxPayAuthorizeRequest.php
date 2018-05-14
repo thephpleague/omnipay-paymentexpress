@@ -230,9 +230,9 @@ class PxPayAuthorizeRequest extends AbstractRequest
      */
     public function sendData($data)
     {
-        $httpResponse = $this->httpClient->post($this->getEndpoint(), null, $data->asXML())->send();
+        $httpResponse = $this->httpClient->request('POST' ,$this->getEndpoint(), [], $data->asXML());
 
-        return $this->createResponse($httpResponse->xml());
+        return $this->createResponse($httpResponse->getBody()->getContents());
     }
 
     /**
@@ -243,7 +243,7 @@ class PxPayAuthorizeRequest extends AbstractRequest
      */
     protected function createResponse($data)
     {
-        return $this->response = new PxPayAuthorizeResponse($this, $data);
+        return $this->response = new PxPayAuthorizeResponse($this, simplexml_load_string($data));
     }
 
     /**
