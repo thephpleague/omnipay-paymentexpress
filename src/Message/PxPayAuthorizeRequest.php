@@ -217,6 +217,8 @@ class PxPayAuthorizeRequest extends AbstractRequest
 
         if ($this->getCardReference()) {
             $data->DpsBillingId = $this->getCardReference();
+        } elseif ($this->getBillingId()) {
+            $data->BillingId = $this->getBillingId();
         }
 
         return $data;
