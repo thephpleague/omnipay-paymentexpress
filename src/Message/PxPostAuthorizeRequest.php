@@ -132,6 +132,30 @@ class PxPostAuthorizeRequest extends AbstractRequest
         return $this->setParameter('transactionData3', $value);
     }
 
+    /**
+     * Get the PxPost BillingId where this is used instead of the DpsBillingId
+     * for storing or retrieving a saved card profile.
+     *
+     * @see getCardReference() for DpsBillingId
+     * @return mixed
+     */
+    public function getBillingId()
+    {
+        return $this->getParameter('billingId');
+    }
+
+    /**
+     * Set a BillingId for use of a stored card with a local reference as an
+     * alternative to using cardReference (which uses DPS' generated reference instead)
+     *
+     * @param string $value Max 32 bytes
+     * @return $this
+     */
+    public function setBillingId($value)
+    {
+        return $this->setParameter('billingId', $value);
+    }
+
     protected function getBaseData()
     {
         $data = new \SimpleXMLElement('<Txn />');
@@ -172,6 +196,8 @@ class PxPostAuthorizeRequest extends AbstractRequest
 
         if ($this->getCardReference()) {
             $data->DpsBillingId = $this->getCardReference();
+        } elseif ($this->getBillingId()) {
+            $data->BillingId = $this->getBillingId();
         } elseif ($this->getCard()) {
             $this->getCard()->validate();
             $data->CardNumber = $this->getCard()->getNumber();
