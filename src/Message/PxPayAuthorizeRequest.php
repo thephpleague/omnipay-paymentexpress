@@ -8,7 +8,7 @@ use Omnipay\Common\Message\AbstractRequest;
 /**
  * PaymentExpress PxPay Authorize Request
  *
- * @link https://www.paymentexpress.com/Technical_Resources/Ecommerce_Hosted/PxPay_2_0
+ * @link https://www.windcave.com/developer-e-commerce-paymentexpress-hosted-pxpay
  */
 class PxPayAuthorizeRequest extends AbstractRequest
 {
@@ -17,14 +17,14 @@ class PxPayAuthorizeRequest extends AbstractRequest
      *
      * @var string URL
      */
-    protected $liveEndpoint = 'https://sec.paymentexpress.com/pxaccess/pxpay.aspx';
+    protected $liveEndpoint = 'https://sec.windcave.com/pxaccess/pxpay.aspx';
 
     /**
      * PxPay test Endpoint URL
      *
      * @var string URL
      */
-    protected $testEndpoint = 'https://uat.paymentexpress.com/pxaccess/pxpay.aspx';
+    protected $testEndpoint = 'https://uat.windcave.com/pxaccess/pxpay.aspx';
 
     /**
      * PxPay TxnType

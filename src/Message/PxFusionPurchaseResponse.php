@@ -57,7 +57,7 @@ class PxFusionPurchaseResponse extends AbstractResponse implements RedirectRespo
     public function getRedirectUrl()
     {
         if ($this->isRedirect()) {
-            return 'https://sec.paymentexpress.com/pxmi3/pxfusionauth';
+            return 'https://sec.windcave.com/pxmi3/pxfusionauth';
         }
     }
 

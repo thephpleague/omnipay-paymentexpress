@@ -9,8 +9,8 @@ use Omnipay\Common\Message\AbstractRequest;
  */
 class PxPostAuthorizeRequest extends AbstractRequest
 {
-    protected $liveEndpoint = 'https://sec.paymentexpress.com/pxpost.aspx';
-    protected $testEndpoint = 'https://uat.paymentexpress.com/pxpost.aspx';
+    protected $liveEndpoint = 'https://sec.windcave.com/pxpost.aspx';
+    protected $testEndpoint = 'https://uat.windcave.com/pxpost.aspx';
     protected $action = 'Auth';
 
     public function getUsername()
