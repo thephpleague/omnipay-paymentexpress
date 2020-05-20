@@ -113,7 +113,7 @@ class PxPayGatewayTest extends GatewayTestCase
         $this->assertTrue($response->isRedirect());
         $this->assertNull($response->getTransactionReference());
         $this->assertNull($response->getMessage());
-        $this->assertSame('https://sec.paymentexpress.com/pxmi3/EF4054F622D6C4C1B0FA3975F5B37D5883A7AA411DF778AEBA9C4E3CBE1B394B50478552233E3FBD7', $response->getRedirectUrl());
+        $this->assertSame('https://sec.windcave.com/pxmi3/EF4054F622D6C4C1B0FA3975F5B37D5883A7AA411DF778AEBA9C4E3CBE1B394B50478552233E3FBD7', $response->getRedirectUrl());
         $this->assertSame('GET', $response->getRedirectMethod());
     }
 
@@ -285,7 +285,7 @@ class PxPayGatewayTest extends GatewayTestCase
         $request = $this->gateway->authorize($options);
 
         $this->assertFalse($request->getTestMode());
-        $this->assertContains('sec.paymentexpress.com', $request->getEndpoint());
+        $this->assertContains('sec.windcave.com', $request->getEndpoint());
     }
 
     public function testTestModeEnabled()
@@ -297,7 +297,7 @@ class PxPayGatewayTest extends GatewayTestCase
         $request = $this->gateway->authorize($options);
 
         $this->assertTrue($request->getTestMode());
-        $this->assertContains('uat.paymentexpress.com', $request->getEndpoint());
+        $this->assertContains('uat.windcave.com', $request->getEndpoint());
     }
 
     private function _testSuccessfulPurchase($response)
@@ -306,7 +306,7 @@ class PxPayGatewayTest extends GatewayTestCase
       $this->assertTrue($response->isRedirect());
       $this->assertNull($response->getTransactionReference());
       $this->assertNull($response->getMessage());
-      $this->assertSame('https://sec.paymentexpress.com/pxpay/pxpay.aspx?userid=Developer&request=v5H7JrBTzH-4Whs__1iQnz4RGSb9qxRKNR4kIuDP8kIkQzIDiIob9GTIjw_9q_AdRiR47ViWGVx40uRMu52yz2mijT39YtGeO7cZWrL5rfnx0Mc4DltIHRnIUxy1EO1srkNpxaU8fT8_1xMMRmLa-8Fd9bT8Oq0BaWMxMquYa1hDNwvoGs1SJQOAJvyyKACvvwsbMCC2qJVyN0rlvwUoMtx6gGhvmk7ucEsPc_Cyr5kNl3qURnrLKxINnS0trdpU4kXPKOlmT6VacjzT1zuj_DnrsWAPFSFq-hGsow6GpKKciQ0V0aFbAqECN8rl_c-aZWFFy0gkfjnUM4qp6foS0KMopJlPzGAgMjV6qZ0WfleOT64c3E-FRLMP5V_-mILs8a',
+      $this->assertSame('https://sec.windcave.com/pxpay/pxpay.aspx?userid=Developer&request=v5H7JrBTzH-4Whs__1iQnz4RGSb9qxRKNR4kIuDP8kIkQzIDiIob9GTIjw_9q_AdRiR47ViWGVx40uRMu52yz2mijT39YtGeO7cZWrL5rfnx0Mc4DltIHRnIUxy1EO1srkNpxaU8fT8_1xMMRmLa-8Fd9bT8Oq0BaWMxMquYa1hDNwvoGs1SJQOAJvyyKACvvwsbMCC2qJVyN0rlvwUoMtx6gGhvmk7ucEsPc_Cyr5kNl3qURnrLKxINnS0trdpU4kXPKOlmT6VacjzT1zuj_DnrsWAPFSFq-hGsow6GpKKciQ0V0aFbAqECN8rl_c-aZWFFy0gkfjnUM4qp6foS0KMopJlPzGAgMjV6qZ0WfleOT64c3E-FRLMP5V_-mILs8a',
         $response->getRedirectUrl());
       $this->assertSame('GET', $response->getRedirectMethod());
     }

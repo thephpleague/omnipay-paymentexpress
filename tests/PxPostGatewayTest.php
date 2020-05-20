@@ -188,7 +188,7 @@ class PxPostGatewayTest extends GatewayTestCase
         $request = $this->gateway->authorize($options);
 
         $this->assertFalse($request->getTestMode());
-        $this->assertContains('sec.paymentexpress.com', $request->getEndpoint());
+        $this->assertContains('sec.windcave.com', $request->getEndpoint());
     }
 
     public function testTestModeEnabled()
@@ -200,6 +200,6 @@ class PxPostGatewayTest extends GatewayTestCase
         $request = $this->gateway->authorize($options);
 
         $this->assertTrue($request->getTestMode());
-        $this->assertContains('uat.paymentexpress.com', $request->getEndpoint());
+        $this->assertContains('uat.windcave.com', $request->getEndpoint());
     }
 }
