@@ -3,7 +3,7 @@
 namespace Omnipay\PaymentExpress\Message;
 
 /**
- * PaymentExpress PxPost Refund Request
+ * Windcave PxPost Refund Request
  */
 class PxPostRefundRequest extends PxPostCaptureRequest
 {

@@ -5,7 +5,7 @@ namespace Omnipay\PaymentExpress\Message;
 use Omnipay\Common\Message\AbstractResponse;
 
 /**
- * PaymentExpress Response
+ * Windcave Response
  */
 class Response extends AbstractResponse
 {

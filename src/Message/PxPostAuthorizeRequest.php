@@ -5,7 +5,7 @@ namespace Omnipay\PaymentExpress\Message;
 use Omnipay\Common\Message\AbstractRequest;
 
 /**
- * PaymentExpress PxPost Authorize Request
+ * Windcave PxPost Authorize Request
  */
 class PxPostAuthorizeRequest extends AbstractRequest
 {

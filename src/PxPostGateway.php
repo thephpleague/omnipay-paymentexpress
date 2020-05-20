@@ -9,7 +9,7 @@ use Omnipay\PaymentExpress\Message\PxPostPurchaseRequest;
 use Omnipay\PaymentExpress\Message\PxPostRefundRequest;
 
 /**
- * DPS PaymentExpress PxPost Gateway
+ * DPS Windcave PxPost Gateway
  */
 class PxPostGateway extends AbstractGateway
 {
