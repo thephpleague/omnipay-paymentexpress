@@ -34,7 +34,7 @@ class PxFusionGatewayTest extends GatewayTestCase
         $this->assertFalse($response->isSuccessful());
         $this->assertTrue($response->isRedirect());
         $this->assertNull($response->getMessage());
-        $this->assertSame('https://sec.paymentexpress.com/pxmi3/pxfusionauth', $response->getRedirectUrl());
+        $this->assertSame('https://sec.windcave.com/pxmi3/pxfusionauth', $response->getRedirectUrl());
         $this->assertSame('POST', $response->getRedirectMethod());
         $this->assertSame(array('SessionId' => '000001001974701382c9911e025dc301'), $response->getRedirectData());
     }

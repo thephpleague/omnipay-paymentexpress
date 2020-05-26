@@ -3,7 +3,7 @@
 namespace Omnipay\PaymentExpress\Message;
 
 /**
- * PaymentExpress PxPay Purchase Request
+ * Windcave PxPay Purchase Request
  */
 class PxPayPurchaseRequest extends PxPayAuthorizeRequest
 {

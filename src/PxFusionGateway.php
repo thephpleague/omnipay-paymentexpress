@@ -7,7 +7,7 @@ use Omnipay\Omnipay;
 use Omnipay\PaymentExpress\Message\PxFusionCreateCardRequest;
 
 /**
- * DPS PaymentExpress PxFusion Gateway
+ * DPS Windcave PxFusion Gateway
  */
 class PxFusionGateway extends AbstractGateway
 {
