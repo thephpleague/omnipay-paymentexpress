@@ -178,6 +178,56 @@ class PxPayAuthorizeRequest extends AbstractRequest
     }
 
     /**
+     * Get the PxPay Opt
+     *
+     * Optional parameter can be used to set a timeout value for the hosted payments page
+     * or block/allow specified card BIN ranges.
+     *
+     * @return mixed
+     */
+    public function getOpt()
+    {
+        return $this->getParameter('opt');
+    }
+
+    /**
+     * Set the Opt field on the request
+     *
+     * @param string $value Max 64 bytes
+     * @return $this
+     */
+    public function setOpt($value)
+    {
+        return $this->setParameter('opt', $value);
+    }
+
+    /**
+     * Get the ForcePaymentMethod Opt
+     *
+     * Optional parameter can be used to set force a payment method for the hosted payments page
+     * and ignore any other payment methods enabled on the account.
+     *
+     * @return mixed
+     */
+    public function getForcePaymentMethod()
+    {
+        return $this->getParameter('forcePaymentMethod');
+    }
+
+    /**
+     * Set the ForcePaymentMethod field on the request
+     *
+     * @param string $value  The payment method to force e.g. 'Card', 'Account2Account', etc.
+     *
+     * @return mixed
+     */
+    public function setForcePaymentMethod($value)
+    {
+        return $this->setParameter('forcePaymentMethod', $value);
+    }
+
+
+    /**
      * Get the transaction data
      *
      * @return SimpleXMLElement
@@ -217,6 +267,14 @@ class PxPayAuthorizeRequest extends AbstractRequest
 
         if ($this->getCardReference()) {
             $data->DpsBillingId = $this->getCardReference();
+        }
+
+        if ($this->getOpt()) {
+            $data->Opt = $this->getOpt();
+        }
+
+        if ($this->getForcePaymentMethod()) {
+            $data->ForcePaymentMethod = $this->getForcePaymentMethod();
         }
 
         return $data;
