@@ -202,6 +202,32 @@ class PxPayAuthorizeRequest extends AbstractRequest
     }
 
     /**
+     * Get the ForcePaymentMethod Opt
+     *
+     * Optional parameter can be used to set force a payment method for the hosted payments page
+     * and ignore any other payment methods enabled on the account.
+     *
+     * @return mixed
+     */
+    public function getForcePaymentMethod()
+    {
+        return $this->getParameter('forcePaymentMethod');
+    }
+
+    /**
+     * Set the ForcePaymentMethod field on the request
+     *
+     * @param string $value  The payment method to force e.g. 'Card', 'Account2Account', etc.
+     *
+     * @return mixed
+     */
+    public function setForcePaymentMethod($value)
+    {
+        return $this->setParameter('forcePaymentMethod', $value);
+    }
+
+
+    /**
      * Get the transaction data
      *
      * @return SimpleXMLElement
@@ -245,6 +271,10 @@ class PxPayAuthorizeRequest extends AbstractRequest
 
         if ($this->getOpt()) {
             $data->Opt = $this->getOpt();
+        }
+
+        if ($this->getForcePaymentMethod()) {
+            $data->ForcePaymentMethod = $this->getForcePaymentMethod();
         }
 
         return $data;
