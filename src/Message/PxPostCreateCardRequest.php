@@ -14,7 +14,7 @@ class PxPostCreateCardRequest extends PxPostAuthorizeRequest
 
         $data = $this->getBaseData();
         $data->InputCurrency = $this->getCurrency();
-        $data->Amount = '1.00';
+        $data->Amount = $this->getAmount();
         $data->EnableAddBillCard = 1;
         $data->CardNumber = $this->getCard()->getNumber();
         $data->CardHolderName = $this->getCard()->getName();
