@@ -7,19 +7,32 @@ namespace Omnipay\PaymentExpress\Message;
  */
 class PxPostCreateCardRequest extends PxPostAuthorizeRequest
 {
+    public function getAction()
+    {
+        return $this->getParameter('action');
+    }
+
+    public function setAction($value)
+    {
+        return $this->setParameter('action', $value);
+    }
+
     public function getData()
     {
+        // don't use an existing card if we're trying to create a new one
+        $this->setCardReference(null);
+
         $this->validate('card');
         $this->getCard()->validate();
 
-        $data = $this->getBaseData();
-        $data->InputCurrency = $this->getCurrency();
-        $data->Amount = '1.00';
+        $this->setAmount($this->getAmount() ? $this->getAmount() : '1.00');
+
+        if ($this->getAction()) {
+            $this->action = $this->getAction();
+        }
+
+        $data = parent::getData();
         $data->EnableAddBillCard = 1;
-        $data->CardNumber = $this->getCard()->getNumber();
-        $data->CardHolderName = $this->getCard()->getName();
-        $data->DateExpiry = $this->getCard()->getExpiryDate('my');
-        $data->Cvc2 = $this->getCard()->getCvv();
 
         return $data;
     }
