@@ -42,6 +42,15 @@ class PxPostGatewayTest extends GatewayTestCase
         $this->assertSame('The transaction was Declined (U5)', $response->getMessage());
     }
 
+    /**
+     * @expectedException Omnipay\Common\Exception\InvalidRequestException
+     */
+    public function testAuthorizeInvalidCard()
+    {
+        $options = array('amount' => '10.00');
+        $this->gateway->authorize($options)->send();
+    }
+
     public function testAuthorizeWithTransactionDataSuccess()
     {
         $this->setMockHttpResponse('PxPostPurchaseSuccess.txt');
@@ -74,6 +83,27 @@ class PxPostGatewayTest extends GatewayTestCase
         $this->assertSame('Business Phone', $response->getData()->TxnData2->__toString());
         $this->assertSame('Business ID', $response->getData()->TxnData3->__toString());
         $this->assertSame('Transaction Approved', $response->getMessage());
+    }
+
+    public function testAuthorizeWithReceiptEmailSuccess()
+    {
+        $this->setMockHttpResponse('PxPostPurchaseSuccess.txt');
+
+        $options = array_merge($this->options, array(
+            'receiptEmail'  => 'pxpost@example.com',
+            'cardReference' => '000000030884cdc6'
+        ));
+
+        $request = $this->gateway->authorize($options);
+
+        $this->assertSame($options['receiptEmail'], $request->getReceiptEmail());
+
+        $response = $request->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertFalse($response->isRedirect());
+        $this->assertSame('000000030884cdc6', $response->getTransactionReference());
+        $this->assertSame('TestReference', $response->getData()->MerchantReference->__toString());
     }
 
     public function testCaptureSuccess()
@@ -158,7 +188,30 @@ class PxPostGatewayTest extends GatewayTestCase
     public function testCreateCardSuccess()
     {
         $this->setMockHttpResponse('PxPostCreateCardSuccess.txt');
-        $response = $this->gateway->createCard($this->options)->send();
+        $request = $this->gateway->createCard($this->options);
+        $this->assertSame($this->options['amount'], $request->getAmount());
+
+        $response = $request->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertFalse($response->isRedirect());
+        $this->assertSame('00000001040c73ea', $response->getTransactionReference());
+        $this->assertSame('0000010009328404', $response->getCardReference());
+        $this->assertSame('Transaction Approved', $response->getMessage());
+    }
+
+    public function testCreateCardWithPurchaseSuccess()
+    {
+        $this->setMockHttpResponse('PxPostCreateCardSuccess.txt');
+        $options = array_merge($this->options, array(
+            'action' => 'Purchase',
+        ));
+        $request = $this->gateway->createCard($options);
+
+        $this->assertSame($options['amount'], $request->getAmount());
+        $this->assertSame($options['action'], $request->getAction());
+
+        $response = $request->send();
 
         $this->assertTrue($response->isSuccessful());
         $this->assertFalse($response->isRedirect());
