@@ -2,8 +2,8 @@
 
 namespace Omnipay\PaymentExpress\Message;
 
-use SimpleXMLElement;
 use Omnipay\Common\Message\AbstractRequest;
+use SimpleXMLElement;
 
 /**
  * PaymentExpress PxPay Authorize Request
@@ -100,6 +100,59 @@ class PxPayAuthorizeRequest extends AbstractRequest
     public function getEndpoint()
     {
         return $this->getTestMode() === true ? $this->testEndpoint : $this->liveEndpoint;
+    }
+
+    /**
+     * Get the PxPay EmailAddress
+     *
+     * Optional: The EmailAddress field can be used to store a customer's email address and will be returned in the
+     * transaction response. The response data along with the email address can then be used by the merchant
+     * to generate a notification/receipt email for the customer.
+     *
+     * @return mixed
+     */
+    public function getEmailAddress()
+    {
+        return $this->getParameter('emailAddress');
+    }
+
+    /**
+     * Set the PxPay EmailAddress
+     *
+     * @param string $value Max 255 bytes
+     * @return $this
+     */
+    public function setEmailAddress($value)
+    {
+        return $this->setParameter('emailAddress', $value);
+    }
+
+    /**
+     * A timeout (TO) can be set for the hosted payments page, after which the payment page will
+     * timeout and no longer allow a payment to be taken. Note: The default timeout of the created hosted
+     * payment page session is 72 hours. A specific timeout timestamp can also be specified via the request in
+     * Coordinated Universal Time (UTC). The value must be in the format "TO=yymmddHHmm" 
+     * e.g.“TO=1010142221” for 2010 October 14th 10:21pm.
+     * The merchant should submit the timeout value of when the payment page should timeout. One approach
+     * is to find the time (UTC) from when the GenerateRequest input XML document is generated and add on
+     * how much time you wish to give the customer before the payment page times out.
+     *
+     * @param string $value Max 255 bytes
+     * @return $this
+     */
+    public function setTimeout($value)
+    {
+        return $this->setParameter('timeout', $value);
+    }
+
+    /**
+     * Get the PxPay Timeout
+     *
+     * @return string
+     */
+    public function getTimeout()
+    {
+        return $this->getParameter('timeout');
     }
 
     /**
@@ -244,6 +297,18 @@ class PxPayAuthorizeRequest extends AbstractRequest
         $data->CurrencyInput = $this->getCurrency();
         $data->UrlSuccess = $this->getReturnUrl();
         $data->UrlFail = $this->getCancelUrl() ?: $this->getReturnUrl();
+
+        if ($this->getEmailAddress()) {
+            $data->EmailAddress = $this->getEmailAddress();
+        }
+
+        if ($this->getTimeout()) {
+            $data->Timeout = $this->getTimeout();
+        }
+
+        if ($this->getNotifyUrl()) {
+            $data->UrlCallback = $this->getNotifyUrl();
+        }
 
         if ($this->getDescription()) {
             $data->MerchantReference = $this->getDescription();
