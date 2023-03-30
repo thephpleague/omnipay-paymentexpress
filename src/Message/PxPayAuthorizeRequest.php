@@ -306,6 +306,10 @@ class PxPayAuthorizeRequest extends AbstractRequest
             $data->Timeout = $this->getTimeout();
         }
 
+        if ($this->getNotifyUrl()) {
+            $data->UrlCallback = $this->getNotifyUrl();
+        }
+
         if ($this->getDescription()) {
             $data->MerchantReference = $this->getDescription();
         }
