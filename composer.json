@@ -1,5 +1,5 @@
 {
-    "name": "omnipay/paymentexpress",
+    "name": "onceit/omnipay-paymentexpress",
     "type": "library",
     "description": "Payment Express (DPS) driver for the Omnipay payment processing library",
     "keywords": [
@@ -16,7 +16,7 @@
         "pxpay",
         "pxpost"
     ],
-    "homepage": "https://github.com/thephpleague/omnipay-paymentexpress",
+    "homepage": "https://github.com/onceit/omnipay-paymentexpress",
     "license": "MIT",
     "minimum-stability" : "beta",
     "authors": [

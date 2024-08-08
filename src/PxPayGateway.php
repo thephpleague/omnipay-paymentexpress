@@ -6,6 +6,7 @@ use Omnipay\Common\AbstractGateway;
 use Omnipay\PaymentExpress\Message\PxPayAuthorizeRequest;
 use Omnipay\PaymentExpress\Message\PxPayCompleteAuthorizeRequest;
 use Omnipay\PaymentExpress\Message\PxPayPurchaseRequest;
+use Omnipay\PaymentExpress\Message\PxPayCaptureRequest;
 use Omnipay\Omnipay;
 
 /**
@@ -83,7 +84,7 @@ class PxPayGateway extends AbstractGateway
     public function purchase(array $parameters = array())
     {
         if (!empty($parameters['cardReference']) && $this->getPxPostPassword() && $this->getPxPostUsername()) {
-            $gateway = Omnipay::create('PaymentExpress_PxPost');
+            $gateway = Omnipay::create('PaymentExpress_PxPost', $this->httpClient, $this->httpRequest);
             $gateway->setPassword($this->getPxPostPassword());
             $gateway->setUserName($this->getPxPostUsername());
             return $gateway->purchase($parameters);
@@ -102,6 +103,16 @@ class PxPayGateway extends AbstractGateway
     }
 
     public function completeCreateCard(array $parameters = array())
+    {
+        return $this->completeAuthorize($parameters);
+    }
+
+    public function capture(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\PaymentExpress\Message\PxPayCaptureRequest', $parameters);
+    }
+
+    public function completeCapture(array $parameters = array())
     {
         return $this->completeAuthorize($parameters);
     }
