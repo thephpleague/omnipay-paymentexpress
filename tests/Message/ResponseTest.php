@@ -43,6 +43,7 @@ class ResponseTest extends TestCase
         $this->assertSame('0000000103f5dc65', $response->getTransactionReference());
         $this->assertNull($response->getCardReference());
         $this->assertSame('APPROVED', $response->getMessage());
+        $this->assertSame('00', $response->getCode());
     }
 
     public function testCompletePurchaseFailure()
@@ -55,7 +56,8 @@ class ResponseTest extends TestCase
         $this->assertFalse($response->isRedirect());
         $this->assertNull($response->getTransactionReference());
         $this->assertNull($response->getCardReference());
-        $this->assertSame('Length of the data to decrypt is invalid.', $response->getMessage());
+        $this->assertSame('Invalid Key or Username. Also check that if a TxnId is being supplied that it is unique.', $response->getMessage());
+        $this->assertSame('IC', $response->getCode());
     }
 
     public function testCreateCardSuccess()

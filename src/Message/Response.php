@@ -43,4 +43,9 @@ class Response extends AbstractResponse
             return (string) $this->data->ResponseText;
         }
     }
+
+    public function getCode()
+    {
+        return empty($this->data->ReCo) ? null : (string) $this->data->ReCo;
+    }
 }
