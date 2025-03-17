@@ -46,12 +46,14 @@ class PxPayGatewayTest extends GatewayTestCase
         $this->setMockHttpResponse('PxPayPurchaseSuccess.txt');
 
         $options = array_merge($this->options, array(
-            'description'      => 'TestReference',
-            'transactionId'    => 'P075985DA31094D8',
-            'transactionData1' => 'Business Name',
-            'transactionData2' => 'Business Phone',
-            'transactionData3' => 'Business ID',
-            'cardReference'    => '000000030884cdc6'
+            'description'        => 'TestReference',
+            'transactionId'      => 'P075985DA31094D8',
+            'transactionData1'   => 'Business Name',
+            'transactionData2'   => 'Business Phone',
+            'transactionData3'   => 'Business ID',
+            'cardReference'      => '000000030884cdc6',
+            'opt'                => 'TO=1302231657',
+            'forcePaymentMethod' => 'VisaCheckout'
         ));
 
         $request = $this->gateway->authorize($options);
@@ -62,6 +64,8 @@ class PxPayGatewayTest extends GatewayTestCase
         $this->assertSame($options['transactionData2'], $request->getTransactionData2());
         $this->assertSame($options['transactionData3'], $request->getTransactionData3());
         $this->assertSame($options['cardReference'], $request->getCardReference());
+        $this->assertSame($options['opt'], $request->getOpt());
+        $this->assertSame($options['forcePaymentMethod'], $request->getForcePaymentMethod());
 
         $response = $request->send();
 
@@ -77,7 +81,7 @@ class PxPayGatewayTest extends GatewayTestCase
       $this->_testSuccessfulPurchase($response);
     }
 
-    public function testPurchaseWithCardReferenceSuccess()
+    public function testPurchaseWithAddBillCardSuccess()
     {
         $this->setMockHttpResponse('PxPayPurchaseSuccess.txt');
 
@@ -89,6 +93,29 @@ class PxPayGatewayTest extends GatewayTestCase
         $response = $this->gateway->purchase($options)->send();
 
       $this->_testSuccessfulPurchase($response);
+    }
+
+    public function testPurchaseWithCardReferenceSuccess()
+    {
+        $this->setMockHttpResponse('PxPostPurchaseSuccess.txt');
+
+        $options = array_merge($this->options, array(
+            'cardReference' => 'Card reference',
+        ));
+
+        $this->gateway->setParameter('pxPostUsername', 'Developer_Post');
+        $this->gateway->setParameter('pxPostPassword', 'AReallyComplexPassword!');
+
+        $response = $this->gateway->purchase($options)->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertFalse($response->isRedirect());
+        $this->assertSame('000000030884cdc6', $response->getTransactionReference());
+        $this->assertSame('Transaction Approved', $response->getMessage());
+
+        // gateway instance is re-used, so reset these
+        $this->gateway->setParameter('pxPostUsername', null);
+        $this->gateway->setParameter('pxPostPassword', null);
     }
 
     public function testPurchaseFailure()
