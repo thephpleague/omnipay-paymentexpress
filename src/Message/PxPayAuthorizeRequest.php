@@ -273,6 +273,10 @@ class PxPayAuthorizeRequest extends AbstractRequest
             $data->Opt = $this->getOpt();
         }
 
+        if ($this->getNotifyUrl()) {
+            $data->UrlCallback = $this->getNotifyUrl();
+        }
+
         if ($this->getForcePaymentMethod()) {
             $data->ForcePaymentMethod = $this->getForcePaymentMethod();
         }

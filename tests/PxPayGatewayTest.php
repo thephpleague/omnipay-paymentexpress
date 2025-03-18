@@ -2,6 +2,7 @@
 
 namespace Omnipay\PaymentExpress;
 
+use Omnipay\Common\Message\NotificationInterface;
 use Omnipay\Tests\GatewayTestCase;
 
 class PxPayGatewayTest extends GatewayTestCase
@@ -24,7 +25,7 @@ class PxPayGatewayTest extends GatewayTestCase
 
         $response = $this->gateway->authorize($this->options)->send();
 
-      $this->_testSuccessfulPurchase($response);
+        $this->_testSuccessfulPurchase($response);
     }
 
     public function testAuthorizeFailure()
@@ -65,7 +66,27 @@ class PxPayGatewayTest extends GatewayTestCase
 
         $response = $request->send();
 
-      $this->_testSuccessfulPurchase($response);
+        $this->_testSuccessfulPurchase($response);
+    }
+
+    public function testAuthorizeWithAllUrls()
+    {
+        $this->setMockHttpResponse('PxPayPurchaseSuccess.txt');
+
+        $options = array_merge($this->options, array(
+            'cancelUrl' => 'https://www.example.com/cancel',
+            'notifyUrl' => 'https://www.example.com/notify',
+        ));
+
+        $request = $this->gateway->authorize($options);
+
+        $this->assertSame($options['returnUrl'], $request->getReturnUrl());
+        $this->assertSame($options['cancelUrl'], $request->getCancelUrl());
+        $this->assertSame($options['notifyUrl'], $request->getNotifyUrl());
+
+        $response = $request->send();
+
+        $this->_testSuccessfulPurchase($response);
     }
 
     public function testPurchaseSuccess()
@@ -74,7 +95,7 @@ class PxPayGatewayTest extends GatewayTestCase
 
         $response = $this->gateway->purchase($this->options)->send();
 
-      $this->_testSuccessfulPurchase($response);
+        $this->_testSuccessfulPurchase($response);
     }
 
     public function testPurchaseWithCardReferenceSuccess()
@@ -88,7 +109,7 @@ class PxPayGatewayTest extends GatewayTestCase
 
         $response = $this->gateway->purchase($options)->send();
 
-      $this->_testSuccessfulPurchase($response);
+        $this->_testSuccessfulPurchase($response);
     }
 
     public function testPurchaseFailure()
@@ -170,6 +191,36 @@ class PxPayGatewayTest extends GatewayTestCase
         $this->assertFalse($response->isRedirect());
         $this->assertNull($response->getTransactionReference());
         $this->assertSame('Length of the data to decrypt is invalid.', $response->getMessage());
+    }
+
+    public function testAcceptNotificationSuccess()
+    {
+        $this->getHttpRequest()->query->replace(array('result' => 'abc123'));
+
+        $this->setMockHttpResponse('PxPayCompletePurchaseSuccess.txt');
+
+        $response = $this->gateway->acceptNotification($this->options);
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertFalse($response->isRedirect());
+        $this->assertSame('0000000103f5dc65', $response->getTransactionReference());
+        $this->assertSame('APPROVED', $response->getMessage());
+        $this->assertSame(NotificationInterface::STATUS_COMPLETED, $response->getTransactionStatus());
+    }
+
+    public function testAcceptNotificationFailure()
+    {
+        $this->getHttpRequest()->query->replace(array('result' => 'abc123'));
+
+        $this->setMockHttpResponse('PxPayCompletePurchaseFailure.txt');
+
+        $response = $this->gateway->acceptNotification($this->options);
+
+        $this->assertFalse($response->isSuccessful());
+        $this->assertFalse($response->isRedirect());
+        $this->assertNull($response->getTransactionReference());
+        $this->assertSame('Length of the data to decrypt is invalid.', $response->getMessage());
+        $this->assertSame(NotificationInterface::STATUS_FAILED, $response->getTransactionStatus());
     }
 
     public function testCompleteCreateCardSuccess()
@@ -302,13 +353,14 @@ class PxPayGatewayTest extends GatewayTestCase
 
     private function _testSuccessfulPurchase($response)
     {
-      $this->assertFalse($response->isSuccessful());
-      $this->assertTrue($response->isRedirect());
-      $this->assertNull($response->getTransactionReference());
-      $this->assertNull($response->getMessage());
-      $this->assertSame('https://sec.windcave.com/pxpay/pxpay.aspx?userid=Developer&request=v5H7JrBTzH-4Whs__1iQnz4RGSb9qxRKNR4kIuDP8kIkQzIDiIob9GTIjw_9q_AdRiR47ViWGVx40uRMu52yz2mijT39YtGeO7cZWrL5rfnx0Mc4DltIHRnIUxy1EO1srkNpxaU8fT8_1xMMRmLa-8Fd9bT8Oq0BaWMxMquYa1hDNwvoGs1SJQOAJvyyKACvvwsbMCC2qJVyN0rlvwUoMtx6gGhvmk7ucEsPc_Cyr5kNl3qURnrLKxINnS0trdpU4kXPKOlmT6VacjzT1zuj_DnrsWAPFSFq-hGsow6GpKKciQ0V0aFbAqECN8rl_c-aZWFFy0gkfjnUM4qp6foS0KMopJlPzGAgMjV6qZ0WfleOT64c3E-FRLMP5V_-mILs8a',
-        $response->getRedirectUrl());
-      $this->assertSame('GET', $response->getRedirectMethod());
+        $this->assertFalse($response->isSuccessful());
+        $this->assertTrue($response->isRedirect());
+        $this->assertNull($response->getTransactionReference());
+        $this->assertNull($response->getMessage());
+        $this->assertSame(
+            'https://sec.windcave.com/pxpay/pxpay.aspx?userid=Developer&request=v5H7JrBTzH-4Whs__1iQnz4RGSb9qxRKNR4kIuDP8kIkQzIDiIob9GTIjw_9q_AdRiR47ViWGVx40uRMu52yz2mijT39YtGeO7cZWrL5rfnx0Mc4DltIHRnIUxy1EO1srkNpxaU8fT8_1xMMRmLa-8Fd9bT8Oq0BaWMxMquYa1hDNwvoGs1SJQOAJvyyKACvvwsbMCC2qJVyN0rlvwUoMtx6gGhvmk7ucEsPc_Cyr5kNl3qURnrLKxINnS0trdpU4kXPKOlmT6VacjzT1zuj_DnrsWAPFSFq-hGsow6GpKKciQ0V0aFbAqECN8rl_c-aZWFFy0gkfjnUM4qp6foS0KMopJlPzGAgMjV6qZ0WfleOT64c3E-FRLMP5V_-mILs8a',
+            $response->getRedirectUrl()
+        );
+        $this->assertSame('GET', $response->getRedirectMethod());
     }
-
 }

@@ -105,4 +105,10 @@ class PxPayGateway extends AbstractGateway
     {
         return $this->completeAuthorize($parameters);
     }
+
+    public function acceptNotification(array $parameters = array())
+    {
+        // NOTE: Windcave does not send full data (only result codes identical to completeAuthorize), so it needs send()
+        return $this->createRequest('\Omnipay\PaymentExpress\Message\PxPayNotificationRequest', $parameters)->send();
+    }
 }
