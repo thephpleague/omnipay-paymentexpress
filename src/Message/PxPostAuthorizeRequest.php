@@ -39,6 +39,30 @@ class PxPostAuthorizeRequest extends AbstractRequest
     }
 
     /**
+     * Get the ClientType option
+     *
+     * Optional parameter can be used to indicate the type of transaction. Feature may need to be enabled for the user.
+     *
+     * @return mixed
+     */
+    public function getClientType()
+    {
+        return $this->getParameter('clientType');
+    }
+
+    /**
+     * Set the ClientType field on the request
+     *
+     * @param string $value  The transaction type, can be one of: 'Internet'/'I' (default), 'Recurring'/'R', or 'MOTO'
+     *
+     * @return mixed
+     */
+    public function setClientType($value)
+    {
+        return $this->setParameter('clientType', $value);
+    }
+
+    /**
      * @return mixed
      */
     public function getReceiptEmail()
@@ -149,6 +173,10 @@ class PxPostAuthorizeRequest extends AbstractRequest
         $data = $this->getBaseData();
         $data->InputCurrency = $this->getCurrency();
         $data->Amount = $this->getAmount();
+
+        if ($this->getClientType()) {
+            $data->ClientType = $this->getClientType();
+        }
 
         if ($this->getDescription()) {
             $data->MerchantReference = $this->getDescription();

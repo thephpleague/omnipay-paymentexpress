@@ -202,6 +202,30 @@ class PxPayAuthorizeRequest extends AbstractRequest
     }
 
     /**
+     * Get the ClientType option
+     *
+     * Optional parameter can be used to indicate the type of transaction. Feature may need to be enabled for the user.
+     *
+     * @return mixed
+     */
+    public function getClientType()
+    {
+        return $this->getParameter('clientType');
+    }
+
+    /**
+     * Set the ClientType field on the request
+     *
+     * @param string $value  The transaction type, can be one of: 'Internet'/'I' (default), 'Recurring'/'R', or 'MOTO'
+     *
+     * @return mixed
+     */
+    public function setClientType($value)
+    {
+        return $this->setParameter('clientType', $value);
+    }
+
+    /**
      * Get the ForcePaymentMethod Opt
      *
      * Optional parameter can be used to set force a payment method for the hosted payments page
@@ -271,6 +295,10 @@ class PxPayAuthorizeRequest extends AbstractRequest
 
         if ($this->getOpt()) {
             $data->Opt = $this->getOpt();
+        }
+
+        if ($this->getClientType()) {
+            $data->ClientType = $this->getClientType();
         }
 
         if ($this->getForcePaymentMethod()) {

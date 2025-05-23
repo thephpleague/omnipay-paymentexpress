@@ -68,6 +68,21 @@ class PxPayGatewayTest extends GatewayTestCase
       $this->_testSuccessfulPurchase($response);
     }
 
+    public function testAuthorizeWithClientTypeSuccess()
+    {
+        $this->setMockHttpResponse('PxPayPurchaseSuccess.txt');
+
+        $options = array_merge($this->options, array('clientType' => 'MOTO'));
+
+        $request = $this->gateway->authorize($options);
+
+        $this->assertSame($options['clientType'], $request->getClientType());
+
+        $response = $request->send();
+
+        $this->_testSuccessfulPurchase($response);
+    }
+
     public function testPurchaseSuccess()
     {
         $this->setMockHttpResponse('PxPayPurchaseSuccess.txt');

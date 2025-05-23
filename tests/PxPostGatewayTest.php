@@ -76,6 +76,24 @@ class PxPostGatewayTest extends GatewayTestCase
         $this->assertSame('Transaction Approved', $response->getMessage());
     }
 
+    public function testAuthorizeWithClientTypeSuccess()
+    {
+        $this->setMockHttpResponse('PxPostPurchaseSuccess.txt');
+
+        $options = array_merge($this->options, array('clientType' => 'MOTO'));
+
+        $request = $this->gateway->authorize($options);
+
+        $this->assertSame($options['clientType'], $request->getClientType());
+
+        $response = $request->send();
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertFalse($response->isRedirect());
+        $this->assertSame('000000030884cdc6', $response->getTransactionReference());
+        $this->assertSame('Transaction Approved', $response->getMessage());
+    }
+
     public function testCaptureSuccess()
     {
         $this->setMockHttpResponse('PxPostPurchaseSuccess.txt');
