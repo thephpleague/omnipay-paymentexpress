@@ -6,7 +6,7 @@ use Omnipay\Tests\GatewayTestCase;
 
 class PxFusionGatewayTest extends GatewayTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

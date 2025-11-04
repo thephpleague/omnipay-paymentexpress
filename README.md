@@ -2,12 +2,13 @@
 
 **DPS Payment Express driver for the Omnipay PHP payment processing library**
 
-[![Build Status](https://travis-ci.org/thephpleague/omnipay-paymentexpress.png?branch=master)](https://travis-ci.org/thephpleague/omnipay-paymentexpress)
+[![Build Status](https://github.com/thephpleague/omnipay-paymentexpress/actions/workflows/phpunit.yml/badge.svg?branch=master)](https://github.com/thephpleague/omnipay-paymentexpress/actions)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](LICENSE.md)
 [![Latest Stable Version](https://poser.pugx.org/omnipay/paymentexpress/version.png)](https://packagist.org/packages/omnipay/paymentexpress)
 [![Total Downloads](https://poser.pugx.org/omnipay/paymentexpress/d/total.png)](https://packagist.org/packages/omnipay/paymentexpress)
 
 [Omnipay](https://github.com/thephpleague/omnipay) is a framework agnostic, multi-gateway payment
-processing library for PHP 5.3+. This package implements Payment Express support for Omnipay.
+processing library for PHP 7.2+. This package implements Payment Express support for Omnipay.
 
 ## Installation
 
@@ -17,7 +18,7 @@ to your `composer.json` file:
 ```json
 {
     "require": {
-        "omnipay/paymentexpress": "~2.0"
+        "omnipay/paymentexpress": "~3.0"
     }
 }
 ```

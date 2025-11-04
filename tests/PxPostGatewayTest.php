@@ -6,7 +6,7 @@ use Omnipay\Tests\GatewayTestCase;
 
 class PxPostGatewayTest extends GatewayTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -188,7 +188,7 @@ class PxPostGatewayTest extends GatewayTestCase
         $request = $this->gateway->authorize($options);
 
         $this->assertFalse($request->getTestMode());
-        $this->assertContains('sec.windcave.com', $request->getEndpoint());
+        $this->assertStringContainsString('sec.windcave.com', $request->getEndpoint());
     }
 
     public function testTestModeEnabled()
@@ -200,6 +200,6 @@ class PxPostGatewayTest extends GatewayTestCase
         $request = $this->gateway->authorize($options);
 
         $this->assertTrue($request->getTestMode());
-        $this->assertContains('uat.windcave.com', $request->getEndpoint());
+        $this->assertStringContainsString('uat.windcave.com', $request->getEndpoint());
     }
 }

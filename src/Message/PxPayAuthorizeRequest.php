@@ -234,7 +234,9 @@ class PxPayAuthorizeRequest extends AbstractRequest
      */
     public function getData()
     {
-        $this->validate('amount', 'returnUrl');
+        // Note: validating for card under the assumption at least an email/address is required for 3DS
+        $this->validate('amount', 'returnUrl', 'card');
+        $card = $this->getCard();
 
         $data = new SimpleXMLElement('<GenerateRequest/>');
         $data->PxPayUserId = $this->getUsername();
@@ -247,6 +249,38 @@ class PxPayAuthorizeRequest extends AbstractRequest
 
         if ($this->getDescription()) {
             $data->MerchantReference = $this->getDescription();
+        }
+
+        if ($card->getBillingAddress1()) {
+            $data->BillingAddress = $card->getBillingAddress1();
+        }
+
+        if ($card->getBillingCity()) {
+            $data->BillingCity = $card->getBillingCity();
+        }
+
+        if ($card->getBillingPostcode()) {
+            $data->BillingPostalCode = $card->getBillingPostcode();
+        }
+
+        if ($card->getBillingState()) {
+            $data->BillingStateName = $card->getBillingState();
+        }
+
+        if ($card->getBillingCountry()) {
+            $data->BillingCountryCode = $card->getBillingCountry();
+        }
+
+        if ($card->getEmail()) {
+            $data->EmailAddress = $card->getEmail();
+        }
+
+        if ($card->getName()) {
+            $data->CardHolderName = $card->getName();
+        }
+
+        if ($card->getPhone()) {
+            $data->PhoneNumber = $card->getPhone();
         }
 
         if ($this->getTransactionId()) {

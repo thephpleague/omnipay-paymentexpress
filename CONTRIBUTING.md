@@ -7,4 +7,4 @@
 * Ensure your code is nicely formatted in the [PSR-2](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)
   style and that all tests pass.
 * Send the pull request.
-* Check that the Travis CI build passed. If not, rinse and repeat.
+* Check that the CI build passed. If not, rinse and repeat.

@@ -2,11 +2,12 @@
 
 namespace Omnipay\PaymentExpress;
 
+use Omnipay\Common\Exception\InvalidResponseException;
 use Omnipay\Tests\GatewayTestCase;
 
 class PxPayGatewayTest extends GatewayTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -15,6 +16,23 @@ class PxPayGatewayTest extends GatewayTestCase
         $this->options = array(
             'amount' => '10.00',
             'returnUrl' => 'https://www.example.com/return',
+            'card' => [
+                'email' => "test@example.net",
+                'name' => "JDFKL FDJKSL",
+                'phone' => "123 456 7890",
+                'shippingAddress1' => "Ship 1 Test",
+                'shippingAddress2' => "Ship 2 Test",
+                'shippingCity'     => "Ship 4 City",
+                'shippingPostcode' => "Ship 5 Postcode",
+                'shippingState'    => "Ship 6 State",
+                'shippingCountry'  => "Ship 7 Country",
+                'billingAddress1'  => "Bill 1 Test",
+                'billingAddress2'  => "Bill 2 Test",
+                'billingCity'      => "Bill 4 City",
+                'billingPostcode'  => "Bill 5 Postcode",
+                'billingState'     => "Bill 6 State",
+                'billingCountry'   => "Bill 7 Country",
+            ],
         );
     }
 
@@ -201,13 +219,11 @@ class PxPayGatewayTest extends GatewayTestCase
         $this->assertSame('Length of the data to decrypt is invalid.', $response->getMessage());
     }
 
-    /**
-     * @expectedException Omnipay\Common\Exception\InvalidResponseException
-     */
     public function testCompleteAuthorizeInvalid()
     {
         $this->getHttpRequest()->query->replace(array());
 
+        $this->expectException(InvalidResponseException::class);
         $response = $this->gateway->completeAuthorize($this->options)->send();
     }
 
@@ -266,13 +282,11 @@ class PxPayGatewayTest extends GatewayTestCase
         $this->assertSame('Length of the data to decrypt is invalid.', $response->getMessage());
     }
 
-    /**
-     * @expectedException Omnipay\Common\Exception\InvalidResponseException
-     */
     public function testCompletePurchaseInvalid()
     {
         $this->getHttpRequest()->query->replace(array());
 
+        $this->expectException(InvalidResponseException::class);
         $response = $this->gateway->completePurchase($this->options)->send();
     }
 
@@ -285,7 +299,7 @@ class PxPayGatewayTest extends GatewayTestCase
         $request = $this->gateway->authorize($options);
 
         $this->assertFalse($request->getTestMode());
-        $this->assertContains('sec.windcave.com', $request->getEndpoint());
+        $this->assertStringContainsString('sec.windcave.com', $request->getEndpoint());
     }
 
     public function testTestModeEnabled()
@@ -297,7 +311,7 @@ class PxPayGatewayTest extends GatewayTestCase
         $request = $this->gateway->authorize($options);
 
         $this->assertTrue($request->getTestMode());
-        $this->assertContains('uat.windcave.com', $request->getEndpoint());
+        $this->assertStringContainsString('uat.windcave.com', $request->getEndpoint());
     }
 
     private function _testSuccessfulPurchase($response)
