@@ -3,10 +3,10 @@
 namespace Omnipay\PaymentExpress;
 
 use Omnipay\Common\AbstractGateway;
+use Omnipay\Omnipay;
 use Omnipay\PaymentExpress\Message\PxPayAuthorizeRequest;
 use Omnipay\PaymentExpress\Message\PxPayCompleteAuthorizeRequest;
 use Omnipay\PaymentExpress\Message\PxPayPurchaseRequest;
-use Omnipay\Omnipay;
 
 /**
  * DPS Windcave PxPay Gateway
@@ -58,7 +58,6 @@ class PxPayGateway extends AbstractGateway
     {
         return $this->setParameter('pxPostUsername', $value);
     }
-
 
     public function getPxPostPassword()
     {
